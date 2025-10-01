@@ -15,8 +15,8 @@ export const useIPLData = () => {
   } = useQuery({
     queryKey: ["teamStats"],
     queryFn: () => googleSheetsService.getTeamStats(),
-    refetchInterval: 5000, // Refetch every 30 seconds for real-time data
-    staleTime: 15000, // Consider data stale after 15 seconds
+    refetchInterval: 5000,
+    staleTime: 2500,
   });
 
   const {
@@ -28,7 +28,7 @@ export const useIPLData = () => {
     queryKey: ["players"],
     queryFn: () => googleSheetsService.getPlayers(),
     refetchInterval: 5000,
-    staleTime: 15000,
+    staleTime: 2500,
   });
 
   const {
@@ -40,7 +40,7 @@ export const useIPLData = () => {
     queryKey: ["leaderboard"],
     queryFn: () => googleSheetsService.getLeaderboard(),
     refetchInterval: 5000,
-    staleTime: 15000,
+    staleTime: 2500,
   });
 
   const getSoldPlayersByTeam = (teamId: string) => {
@@ -49,7 +49,7 @@ export const useIPLData = () => {
       queryFn: () => googleSheetsService.getSoldPlayersByTeam(teamId),
       enabled: !!teamId,
       refetchInterval: 5000,
-      staleTime: 15000,
+      staleTime: 2500,
     });
   };
 
@@ -58,7 +58,7 @@ export const useIPLData = () => {
       queryKey: ["unsoldPlayers"],
       queryFn: () => googleSheetsService.getUnsoldPlayers(),
       refetchInterval: 5000,
-      staleTime: 15000,
+      staleTime: 2500,
     });
   };
 
