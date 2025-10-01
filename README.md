@@ -139,54 +139,6 @@ npm install; npm run build
 node start-production.js
 ```
 
-## 📁 Project Structure
-
-```
-├── client/                 # Frontend React application
-│   ├── src/
-│   │   ├── components/     # Reusable UI components
-│   │   │   ├── ui/         # shadcn/ui component library
-│   │   │   ├── LeaderboardView.tsx    # Leaderboard with rankings
-│   │   │   ├── PlayerCard.tsx         # Player display cards
-│   │   │   ├── TeamCard.tsx           # Team overview cards
-│   │   │   └── ...
-│   │   ├── hooks/          # Custom React hooks
-│   │   │   └── use-toast.ts           # Toast notification hook
-│   │   ├── lib/            # Utility libraries
-│   │   │   ├── queryClient.ts         # TanStack Query configuration
-│   │   │   └── utils.ts               # Utility functions
-│   │   ├── pages/          # Page components and sections
-│   │   │   ├── sections/   # Page section components
-│   │   │   │   ├── PlayerDetailsSection.tsx   # Player details view
-│   │   │   │   ├── TeamOverviewSection.tsx    # Team cards view
-│   │   │   │   └── ...
-│   │   │   └── HomePage.tsx           # Main homepage
-│   │   ├── services/       # Google Sheets integration
-│   │   │   └── googleSheetsService.ts # Data fetching service
-│   │   ├── assets/         # Static assets
-│   │   │   └── teamLogos/  # Team logo images
-│   │   └── App.tsx         # Main app component with routing
-│   ├── public/             # Public static files
-│   │   └── favicon.ico     # ISTE logo favicon
-│   └── index.html          # HTML entry point
-├── server/                 # Backend server
-│   ├── index.ts            # Express server (dev + production)
-│   ├── routes.ts           # API route definitions
-│   ├── storage.ts          # Storage interface
-│   └── vite.ts             # Vite dev server integration
-├── shared/                 # Shared TypeScript types
-│   └── schema.ts           # Data schemas and types
-├── attached_assets/        # Project assets
-│   ├── iste-logo.png      # ISTE logo
-│   └── background images   # IPL themed backgrounds
-├── start-production.js     # Production server launcher
-├── package.json           # Dependencies and scripts
-├── vite.config.ts         # Vite build configuration
-├── tsconfig.json          # TypeScript configuration
-├── tailwind.config.ts     # Tailwind CSS theming
-└── README.md              # This file
-```
-
 ## 🛠️ Development
 
 ### Available Scripts
