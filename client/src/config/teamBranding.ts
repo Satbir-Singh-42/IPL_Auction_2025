@@ -32,7 +32,7 @@ export const TEAM_BRANDING: Record<string, TeamBranding> = {
     borderColor: 'border-[#DA1212]',
     bgGradient: 'bg-[linear-gradient(135deg,rgba(218,18,18,0.95)_0%,rgba(180,15,15,0.85)_45%,rgba(140,10,10,0.9)_100%)]',
   },
-  'Kolkata Riders': {
+  'Kolkata Night Riders': {
     logo: '/images/teams/kkr.jpeg',
     borderColor: 'border-[#3E1F47]',
     bgGradient: 'bg-[linear-gradient(135deg,rgba(62,31,71,0.95)_0%,rgba(45,20,55,0.85)_45%,rgba(30,15,40,0.9)_100%)]',
