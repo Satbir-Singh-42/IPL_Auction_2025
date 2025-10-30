@@ -27,7 +27,7 @@ export const TEAM_BRANDING: Record<string, TeamBranding> = {
     borderColor: 'border-[#0097A7]',
     bgGradient: 'bg-[linear-gradient(135deg,rgba(0,151,167,0.95)_0%,rgba(0,120,135,0.85)_45%,rgba(0,90,110,0.9)_100%)]',
   },
-  'Bangalore Tigers': {
+  'Royal Challengers Bengaluru': {
     logo: '/images/teams/rcb.jpg',
     borderColor: 'border-[#DA1212]',
     bgGradient: 'bg-[linear-gradient(135deg,rgba(218,18,18,0.95)_0%,rgba(180,15,15,0.85)_45%,rgba(140,10,10,0.9)_100%)]',
@@ -47,7 +47,7 @@ export const TEAM_BRANDING: Record<string, TeamBranding> = {
     borderColor: 'border-[#004C97]',
     bgGradient: 'bg-[linear-gradient(135deg,rgba(0,76,151,0.95)_0%,rgba(0,60,120,0.85)_45%,rgba(0,45,95,0.9)_100%)]',
   },
-  'Chennai Strikers': {
+  'Chennai Super Kings': {
     logo: '/images/teams/csk.jpg',
     borderColor: 'border-[#F9CD00]',
     bgGradient: 'bg-[linear-gradient(135deg,rgba(180,140,0,0.95)_0%,rgba(140,110,0,0.85)_45%,rgba(100,80,0,0.9)_100%)]',
