@@ -12,7 +12,7 @@ export const AUCTION_CONFIG = {
   squadSizeLabel: "Squad Size: Max {max} players",
   qualificationLabel: "🏆 Qualification: Top {count} teams advance",
   minPlayersLabel: "Min: {min} players required",
-  bidIncrement: 1000,
+  bidIncrement: 100000,
 };
 
 /**
