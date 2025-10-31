@@ -490,22 +490,7 @@ export default function AuctionPage() {
         <h3 className="text-sm font-bold text-white truncate">{player.name}</h3>
         
         <div className="text-xs text-white/70 truncate">
-          {player.nation || 'N/A'} - {player.role || 'N/A'}
-        </div>
-        
-        <div className="grid grid-cols-4 gap-1 text-xs text-center">
-          <div className="text-white/80">
-            <div className="font-semibold">{player.age || 'N/A'}</div>
-          </div>
-          <div className="text-white/80">
-            <div className="font-semibold">{player.t20Matches || 'N/A'}</div>
-          </div>
-          <div className="text-white/80">
-            <div className="font-semibold">₹{formatIndianNumber(player.basePrice || 0)}</div>
-          </div>
-          <div className="text-white/80">
-            <div className="font-semibold">{player.points || '0'}</div>
-          </div>
+          {player.role || 'N/A'} • {player.nation || 'N/A'}
         </div>
 
         <div className="bg-green-500/20 backdrop-blur-sm border border-green-400/50 rounded px-2 py-1 text-center">
@@ -568,22 +553,7 @@ export default function AuctionPage() {
         <h3 className="text-sm font-bold text-white truncate">{player.name}</h3>
         
         <div className="text-xs text-white/70 truncate">
-          {player.nation || 'N/A'} - {player.role || 'N/A'}
-        </div>
-        
-        <div className="grid grid-cols-4 gap-1 text-xs text-center">
-          <div className="text-white/80">
-            <div className="font-semibold">{player.age || 'N/A'}</div>
-          </div>
-          <div className="text-white/80">
-            <div className="font-semibold">{player.t20Matches || 'N/A'}</div>
-          </div>
-          <div className="text-white/80">
-            <div className="font-semibold">₹{formatIndianNumber(player.basePrice || 0)}</div>
-          </div>
-          <div className="text-white/80">
-            <div className="font-semibold">{player.points || '0'}</div>
-          </div>
+          {player.role || 'N/A'} • {player.nation || 'N/A'}
         </div>
       </div>
     </motion.div>
