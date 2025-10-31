@@ -583,18 +583,15 @@ export default function AuctionPage() {
   );
 
   return (
-    <motion.div 
-      className="min-h-screen text-white font-['Segoe_UI',sans-serif] relative"
-      style={{
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center'
-      }}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: isPageReady ? 1 : 0 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-    >
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+    <div className="min-h-screen text-white font-['Segoe_UI',sans-serif] relative">
+      <div 
+        className="fixed inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url(${backgroundImage})`,
+          zIndex: 0
+        }}
+      />
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" style={{ zIndex: 1 }}></div>
       
       <motion.div 
         className="relative z-10"
@@ -1100,6 +1097,6 @@ export default function AuctionPage() {
           }
         `}</style>
       </motion.div>
-    </motion.div>
+    </div>
   );
 }
