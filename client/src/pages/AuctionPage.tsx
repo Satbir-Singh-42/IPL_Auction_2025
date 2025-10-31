@@ -488,21 +488,33 @@ export default function AuctionPage() {
       <div className="p-2.5 space-y-1.5">
         <h3 className="text-sm font-bold text-white truncate">{player.name}</h3>
         
+        <div className="text-xs text-white/70 truncate">
+          {player.nation || 'N/A'} - {player.role || 'N/A'}
+        </div>
+        
         <div className="grid grid-cols-2 gap-1 text-xs">
-          <div className="flex items-center gap-0.5 text-white/80 truncate">
-            <Users className="w-2.5 h-2.5 flex-shrink-0" />
-            <span className="truncate">{player.role || 'N/A'}</span>
+          <div className="text-white/80">
+            <div className="text-white/60">Age</div>
+            <div className="font-semibold">{player.age || 'N/A'}</div>
           </div>
-          <div className="flex items-center gap-0.5 text-white/80 truncate">
-            <Globe className="w-2.5 h-2.5 flex-shrink-0" />
-            <span className="truncate">{player.nation || 'N/A'}</span>
+          <div className="text-white/80">
+            <div className="text-white/60">T20 Matches</div>
+            <div className="font-semibold">{player.t20Matches || 'N/A'}</div>
+          </div>
+          <div className="text-white/80">
+            <div className="text-white/60">Base Price</div>
+            <div className="font-semibold">₹{player.basePrice || '0'}</div>
+          </div>
+          <div className="text-white/80">
+            <div className="text-white/60">Points</div>
+            <div className="font-semibold">{player.points || '0'}</div>
           </div>
         </div>
 
         <div className="bg-green-500/20 backdrop-blur-sm border border-green-400/50 rounded px-2 py-1 text-center">
-          <div className="text-green-300 font-bold text-xs">SOLD</div>
+          <div className="text-green-300 font-bold text-xs">SOLD - Current Bid</div>
           <div className="text-white font-bold text-sm">
-            {player.soldPrice > 0 ? `₹${player.soldPrice}` : 'N/A'}
+            ₹{player.soldPrice > 0 ? player.soldPrice : 'N/A'}
           </div>
         </div>
 
