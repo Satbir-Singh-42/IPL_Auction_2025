@@ -672,7 +672,7 @@ export default function AuctionPage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.4 }}
             >
-              Active Players
+              Players in Auction
             </motion.h2>
             <motion.div 
               className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-3"
@@ -715,7 +715,7 @@ export default function AuctionPage() {
                 transition={{ duration: 0.4 }}
               >
                 <Users className="w-16 h-16 mx-auto mb-4 opacity-40" />
-                <p className="text-lg">No active players found</p>
+                <p className="text-lg">No players in auction</p>
               </motion.div>
             )}
           </section>
