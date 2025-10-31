@@ -36,6 +36,11 @@ export default function AuctionPage() {
   const [isPageReady, setIsPageReady] = useState(false);
 
   useEffect(() => {
+    const img = new Image();
+    img.src = backgroundImage;
+  }, []);
+
+  useEffect(() => {
     if (players && players.length > 0) {
       const soldFromSheet = players.filter(p => p.status === 'sold');
       const sheetSoldNames = new Set(soldFromSheet.map(p => p.name));
@@ -478,6 +483,15 @@ export default function AuctionPage() {
             alt={player.name}
             className="w-full h-full object-cover object-top opacity-70"
             loading="lazy"
+            decoding="async"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+              const parent = e.currentTarget.parentElement;
+              if (parent) {
+                const initials = player.name.split(' ').map(n => n[0]).join('').toUpperCase();
+                parent.innerHTML = `<div class="w-full h-full flex items-center justify-center text-3xl font-bold text-white">${initials}</div>`;
+              }
+            }}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-3xl font-bold text-white">
@@ -528,6 +542,15 @@ export default function AuctionPage() {
             alt={player.name}
             className="w-full h-full object-cover object-top"
             loading="lazy"
+            decoding="async"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+              const parent = e.currentTarget.parentElement;
+              if (parent) {
+                const initials = player.name.split(' ').map(n => n[0]).join('').toUpperCase();
+                parent.innerHTML = `<div class="w-full h-full flex items-center justify-center text-3xl font-bold text-white">${initials}</div>`;
+              }
+            }}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-3xl font-bold text-white">
@@ -565,8 +588,7 @@ export default function AuctionPage() {
       style={{
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed'
+        backgroundPosition: 'center'
       }}
       initial={{ opacity: 0 }}
       animate={{ opacity: isPageReady ? 1 : 0 }}
