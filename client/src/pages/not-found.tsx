@@ -1,20 +1,38 @@
 import { motion } from "framer-motion";
 import { AlertCircle, Home, Trophy } from "lucide-react";
 import { Link } from "wouter";
+import { useState, useEffect } from "react";
 
 const backgroundImage = "/images/auction/background.png";
 
 export default function NotFound() {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => setImageLoaded(true);
+    img.onerror = () => setImageLoaded(true);
+    img.src = backgroundImage;
+  }, []);
+
   return (
-    <div 
-      className="min-h-screen text-white font-['Segoe_UI',sans-serif] relative flex items-center justify-center"
-      style={{
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed'
-      }}
-    >
+    <div className="min-h-screen text-white font-['Segoe_UI',sans-serif] relative flex items-center justify-center">
+      <div
+        className={`absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-500 ${
+          imageLoaded ? "opacity-100" : "opacity-0"
+        }`}
+        style={{
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed'
+        }}
+      />
+      
+      {!imageLoaded && (
+        <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900" />
+      )}
+      
       <div className="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
       
       <motion.div
