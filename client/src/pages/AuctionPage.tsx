@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { AUCTION_CONFIG } from "@shared/config";
 import { useToast } from "@/hooks/use-toast";
 import { LoadingPage } from "@/components/LoadingPage";
+import { formatIndianNumber } from "@/lib/utils";
 
 const backgroundImage = "/images/auction/background.png";
 const unsoldStampImage = "/images/auction/unsold.png";
@@ -492,29 +493,25 @@ export default function AuctionPage() {
           {player.nation || 'N/A'} - {player.role || 'N/A'}
         </div>
         
-        <div className="grid grid-cols-2 gap-1 text-xs">
+        <div className="grid grid-cols-4 gap-1 text-xs text-center">
           <div className="text-white/80">
-            <div className="text-white/60">Age</div>
             <div className="font-semibold">{player.age || 'N/A'}</div>
           </div>
           <div className="text-white/80">
-            <div className="text-white/60">T20 Matches</div>
             <div className="font-semibold">{player.t20Matches || 'N/A'}</div>
           </div>
           <div className="text-white/80">
-            <div className="text-white/60">Base Price</div>
-            <div className="font-semibold">₹{player.basePrice || '0'}</div>
+            <div className="font-semibold">₹{formatIndianNumber(player.basePrice || 0)}</div>
           </div>
           <div className="text-white/80">
-            <div className="text-white/60">Points</div>
             <div className="font-semibold">{player.points || '0'}</div>
           </div>
         </div>
 
         <div className="bg-green-500/20 backdrop-blur-sm border border-green-400/50 rounded px-2 py-1 text-center">
-          <div className="text-green-300 font-bold text-xs">SOLD - Current Bid</div>
+          <div className="text-green-300 font-bold text-xs">SOLD</div>
           <div className="text-white font-bold text-sm">
-            ₹{player.soldPrice > 0 ? player.soldPrice : 'N/A'}
+            ₹{player.soldPrice > 0 ? formatIndianNumber(player.soldPrice) : 'N/A'}
           </div>
         </div>
 
@@ -574,21 +571,17 @@ export default function AuctionPage() {
           {player.nation || 'N/A'} - {player.role || 'N/A'}
         </div>
         
-        <div className="grid grid-cols-2 gap-1 text-xs">
+        <div className="grid grid-cols-4 gap-1 text-xs text-center">
           <div className="text-white/80">
-            <div className="text-white/60">Age</div>
             <div className="font-semibold">{player.age || 'N/A'}</div>
           </div>
           <div className="text-white/80">
-            <div className="text-white/60">T20 Matches</div>
             <div className="font-semibold">{player.t20Matches || 'N/A'}</div>
           </div>
           <div className="text-white/80">
-            <div className="text-white/60">Base Price</div>
-            <div className="font-semibold">₹{player.basePrice || '0'}</div>
+            <div className="font-semibold">₹{formatIndianNumber(player.basePrice || 0)}</div>
           </div>
           <div className="text-white/80">
-            <div className="text-white/60">Points</div>
             <div className="font-semibold">{player.points || '0'}</div>
           </div>
         </div>
@@ -912,7 +905,7 @@ export default function AuctionPage() {
                         <Coins className="w-3 h-3" />
                         Base Price
                       </div>
-                      <div className="text-white text-lg font-bold" data-testid="viewer-base-price">₹{currentPlayer.basePrice}</div>
+                      <div className="text-white text-lg font-bold" data-testid="viewer-base-price">₹{formatIndianNumber(currentPlayer.basePrice || 0)}</div>
                     </div>
                     <div className="backdrop-blur-md bg-white/10 rounded-lg p-2 border border-white/20">
                       <div className="text-white/80 text-xs mb-0.5 flex items-center gap-1">
@@ -930,7 +923,7 @@ export default function AuctionPage() {
                         className="text-white text-3xl font-bold" 
                         data-testid="viewer-current-bid"
                       >
-                        ₹{currentBid.toLocaleString()}
+                        ₹{formatIndianNumber(currentBid)}
                       </div>
                     </div>
                   )}
@@ -990,7 +983,7 @@ export default function AuctionPage() {
                     <div className="bg-green-500/20 backdrop-blur-sm border border-green-400/50 rounded-lg px-4 py-3 text-center">
                       <div className="text-green-300 font-bold text-sm mb-1">SOLD</div>
                       <div className="text-white font-bold text-2xl">
-                        {currentPlayer.soldPrice > 0 ? `₹${currentPlayer.soldPrice.toLocaleString()}` : 'N/A'}
+                        {currentPlayer.soldPrice > 0 ? `₹${formatIndianNumber(currentPlayer.soldPrice)}` : 'N/A'}
                       </div>
                       {currentPlayer.team && currentPlayer.team !== 'N/A' && (
                         <div className="text-white text-sm font-semibold mt-2">{currentPlayer.team}</div>

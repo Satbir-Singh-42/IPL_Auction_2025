@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Player, googleSheetsService } from '@/services/googleSheetsService';
+import { formatIndianNumber } from '@/lib/utils';
 
 interface PlayerDetailsModalProps {
   player: Player | null;
@@ -15,14 +16,6 @@ export const PlayerDetailsModal: React.FC<PlayerDetailsModalProps> = ({
   onClose 
 }) => {
   if (!player) return null;
-
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR',
-      maximumFractionDigits: 0,
-    }).format(amount).replace('₹', '');
-  };
 
   const hasImage = player.images && player.images.trim() !== '';
   
@@ -118,7 +111,7 @@ export const PlayerDetailsModal: React.FC<PlayerDetailsModalProps> = ({
             <div className="bg-white/5 rounded-xl p-2 sm:p-3 text-center border border-white/10">
               <p className="text-white/50 text-xs uppercase tracking-wider font-medium">Base Price</p>
               <p className="text-white text-lg sm:text-xl md:text-2xl font-bold mt-1" data-testid="text-base-price">
-                ₹{formatCurrency(player.basePrice)}
+                ₹{formatIndianNumber(player.basePrice)}
               </p>
             </div>
 
@@ -135,7 +128,7 @@ export const PlayerDetailsModal: React.FC<PlayerDetailsModalProps> = ({
           {player.status === 'sold' && player.soldPrice > 0 && (
             <div className="bg-white/10 rounded-xl border border-white/20 p-3 sm:p-4 text-center">
               <p className="text-white text-base sm:text-lg md:text-xl font-bold mb-1" data-testid="text-sold-price">
-                Sold for: ₹{formatCurrency(player.soldPrice)}
+                Sold for: ₹{formatIndianNumber(player.soldPrice)}
               </p>
               <p className="text-white/90 text-sm sm:text-base font-semibold" data-testid="text-team">
                 {player.team}

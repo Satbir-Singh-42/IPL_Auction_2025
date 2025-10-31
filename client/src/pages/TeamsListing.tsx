@@ -7,6 +7,7 @@ import { useIPLData } from '@/hooks/useIPLData';
 import { LoadingPage } from '@/components/LoadingPage';
 import { googleSheetsService, type Team } from '@/services/googleSheetsService';
 import { ArrowLeft } from 'lucide-react';
+import { formatIndianNumber } from '@/lib/utils';
 
 // Team Logo component
 const TeamLogo = ({ logo, name, className = "" }: { logo: string; name: string; className?: string }) => {
@@ -39,14 +40,6 @@ export const TeamsListing = () => {
   useEffect(() => {
     googleSheetsService.getTeamConfigs().then(setTeamConfigs);
   }, []);
-
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR',
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
 
   const handleTeamClick = (teamId: string) => {
     setLocation(`/team/${teamId}`);
@@ -141,7 +134,7 @@ export const TeamsListing = () => {
 
                       <div className="flex flex-col items-center w-full">
                         <span className="[font-family:'Work_Sans',Helvetica] font-bold text-wwwiplt-2-0comwhite text-lg text-center tracking-[0] leading-7">
-                          {teamStat ? formatCurrency(teamStat.fundsRemaining) : '₹0'}
+                          {teamStat ? `₹${formatIndianNumber(teamStat.fundsRemaining)}` : '₹0'}
                         </span>
                       </div>
                     </div>

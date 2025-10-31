@@ -15,6 +15,7 @@ import {
   getConfigText,
   DASHBOARD_COLORS,
 } from "@shared/config";
+import { formatIndianNumber } from "@/lib/utils";
 
 // Team Logo component with hover animation
 const TeamLogo = ({
@@ -123,14 +124,6 @@ export const TeamDashboard = () => {
       });
     }
   }, [teamStats, teamConfig]);
-
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("en-IN", {
-      style: "currency",
-      currency: "INR",
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
 
   if (teamNotFound) {
     return <NotFound />;
@@ -307,8 +300,8 @@ export const TeamDashboard = () => {
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.2 }}>
                     {teamStat
-                      ? formatCurrency(teamStat.fundsRemaining)
-                      : formatCurrency(startingBudget)}
+                      ? `₹${formatIndianNumber(teamStat.fundsRemaining)}`
+                      : `₹${formatIndianNumber(startingBudget)}`}
                   </motion.p>
                 </div>
               </CardContent>
@@ -356,7 +349,7 @@ export const TeamDashboard = () => {
                       className={`text-lg md:text-2xl font-bold ${DASHBOARD_COLORS.stats.startingBudget.text}`}
                       whileHover={{ scale: 1.1 }}
                       transition={{ duration: 0.2 }}>
-                      {formatCurrency(startingBudget)}
+                      ₹{formatIndianNumber(startingBudget)}
                     </motion.p>
                   </div>
                 </CardContent>
@@ -379,8 +372,8 @@ export const TeamDashboard = () => {
                       whileHover={{ scale: 1.1 }}
                       transition={{ duration: 0.2 }}>
                       {teamStat
-                        ? formatCurrency(teamStat.totalSpent)
-                        : formatCurrency(0)}
+                        ? `₹${formatIndianNumber(teamStat.totalSpent)}`
+                        : '₹0'}
                     </motion.p>
                   </div>
                 </CardContent>
