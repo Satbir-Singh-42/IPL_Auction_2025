@@ -622,6 +622,8 @@ export default function AuctionPage() {
         className="fixed inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center center',
           zIndex: 0
         }}
       />
@@ -812,11 +814,11 @@ export default function AuctionPage() {
         <AnimatePresence>
         {viewerOpen && currentPlayer && (
           <motion.div 
-            className="fixed inset-0 flex items-center justify-center z-[1000] p-4"
+            className="fixed inset-0 flex items-center justify-center z-[1000] p-3 md:p-4"
             style={{
               backgroundImage: `url(${backgroundImage})`,
               backgroundSize: 'cover',
-              backgroundPosition: 'center'
+              backgroundPosition: 'center center'
             }}
             data-testid="viewer-modal"
             initial={{ opacity: 0 }}
@@ -871,7 +873,7 @@ export default function AuctionPage() {
             </AnimatePresence>
             
             <motion.div 
-              className="relative max-w-4xl w-full backdrop-blur-xl bg-white/5 rounded-2xl overflow-hidden shadow-2xl border border-white/30 z-[1001]"
+              className="relative max-w-4xl w-full backdrop-blur-xl bg-white/5 rounded-2xl overflow-hidden shadow-2xl border border-white/30 z-[1001] max-h-[90vh] overflow-y-auto"
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
               animate={{ 
                 scale: isTransitioning ? 0.95 : 1, 
@@ -884,28 +886,28 @@ export default function AuctionPage() {
               onTouchMove={onTouchMove}
               onTouchEnd={onTouchEnd}
             >
-              <div className="grid md:grid-cols-2 gap-6 p-6">
+              <div className="grid md:grid-cols-2 gap-4 md:gap-6 p-4 md:p-6">
                 <div className="relative">
                   {currentPlayer.images ? (
                     <img 
                       src={currentPlayer.images} 
                       alt={currentPlayer.name}
-                      className="w-full h-auto max-h-[60vh] object-contain rounded-xl shadow-2xl"
+                      className="w-full h-auto max-h-[35vh] md:max-h-[60vh] object-contain rounded-xl shadow-2xl"
                       data-testid="viewer-image"
                     />
                   ) : (
-                    <div className="w-full h-80 bg-gradient-to-br from-purple-900/40 to-blue-900/40 backdrop-blur-md rounded-xl flex items-center justify-center text-7xl font-bold text-white border border-white/20">
+                    <div className="w-full h-48 md:h-80 bg-gradient-to-br from-purple-900/40 to-blue-900/40 backdrop-blur-md rounded-xl flex items-center justify-center text-5xl md:text-7xl font-bold text-white border border-white/20">
                       {currentPlayer.name.split(' ').map(n => n[0]).join('').toUpperCase()}
                     </div>
                   )}
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-3 md:space-y-4">
                   <div>
-                    <h2 className="text-3xl font-bold text-white mb-2 drop-shadow-lg" data-testid="viewer-name">
+                    <h2 className="text-xl md:text-3xl font-bold text-white mb-1 md:mb-2 drop-shadow-lg" data-testid="viewer-name">
                       {currentPlayer.name}
                     </h2>
-                    <p className="text-lg text-white/90">{currentPlayer.nation} - {currentPlayer.role}</p>
+                    <p className="text-sm md:text-lg text-white/90">{currentPlayer.nation} - {currentPlayer.role}</p>
                     {currentPlayer.overseas && (
                       <div className="inline-flex items-center gap-2 bg-blue-500/80 backdrop-blur-sm text-white px-3 py-1 rounded-lg text-sm font-semibold mt-2">
                         <Globe className="w-4 h-4" />
@@ -917,33 +919,33 @@ export default function AuctionPage() {
                   <div className="grid grid-cols-2 gap-2">
                     <div className="backdrop-blur-md bg-white/10 rounded-lg p-2 border border-white/20">
                       <div className="text-white/80 text-xs mb-0.5">Age</div>
-                      <div className="text-white text-lg font-semibold" data-testid="viewer-age">{currentPlayer.age || 'N/A'}</div>
+                      <div className="text-white text-base md:text-lg font-semibold" data-testid="viewer-age">{currentPlayer.age || 'N/A'}</div>
                     </div>
                     <div className="backdrop-blur-md bg-white/10 rounded-lg p-2 border border-white/20">
                       <div className="text-white/80 text-xs mb-0.5">T20 Matches</div>
-                      <div className="text-white text-lg font-semibold" data-testid="viewer-t20">{currentPlayer.t20Matches || 0}</div>
+                      <div className="text-white text-base md:text-lg font-semibold" data-testid="viewer-t20">{currentPlayer.t20Matches || 0}</div>
                     </div>
                     <div className="backdrop-blur-md bg-white/10 rounded-lg p-2 border border-white/20">
                       <div className="text-white/80 text-xs mb-0.5 flex items-center gap-1">
                         <Coins className="w-3 h-3" />
                         Base Price
                       </div>
-                      <div className="text-white text-lg font-bold" data-testid="viewer-base-price">₹{formatIndianNumber(currentPlayer.basePrice || 0)}</div>
+                      <div className="text-white text-base md:text-lg font-bold" data-testid="viewer-base-price">₹{formatIndianNumber(currentPlayer.basePrice || 0)}</div>
                     </div>
                     <div className="backdrop-blur-md bg-white/10 rounded-lg p-2 border border-white/20">
                       <div className="text-white/80 text-xs mb-0.5 flex items-center gap-1">
                         <TrendingUp className="w-3 h-3" />
                         Points
                       </div>
-                      <div className="text-white text-lg font-bold" data-testid="viewer-points">{currentPlayer.points || 0}</div>
+                      <div className="text-white text-base md:text-lg font-bold" data-testid="viewer-points">{currentPlayer.points || 0}</div>
                     </div>
                   </div>
 
                   {!soldCards.some(p => p.name === currentPlayer.name) && (
-                    <div className="backdrop-blur-xl bg-blue-600/10 rounded-lg p-3 border-2 border-blue-400/30">
-                      <div className="text-blue-300 text-sm mb-1 font-semibold">Current Bid</div>
+                    <div className="backdrop-blur-xl bg-blue-600/10 rounded-lg p-2 md:p-3 border-2 border-blue-400/30">
+                      <div className="text-blue-300 text-xs md:text-sm mb-1 font-semibold">Current Bid</div>
                       <div 
-                        className="text-white text-3xl font-bold" 
+                        className="text-white text-xl md:text-3xl font-bold" 
                         data-testid="viewer-current-bid"
                       >
                         ₹{formatIndianNumber(currentBid)}
@@ -953,14 +955,14 @@ export default function AuctionPage() {
 
                   {!soldCards.some(p => p.name === currentPlayer.name) && (
                     <motion.div 
-                      className="flex gap-2"
+                      className="flex flex-col md:flex-row gap-3 md:gap-2"
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.3, delay: 0.2 }}
                     >
                       <motion.button
                         onClick={markSold}
-                        className="flex-1 px-4 py-2.5 text-base font-bold border-none rounded-xl cursor-pointer shadow-lg backdrop-blur-md bg-green-600/90 text-white"
+                        className="flex-1 px-4 py-4 md:py-2.5 text-base md:text-base font-bold border-none rounded-xl cursor-pointer shadow-lg backdrop-blur-md bg-green-600/90 text-white min-h-[48px] touch-manipulation"
                         data-testid="button-sold"
                         whileHover={{ 
                           scale: 1.05, 
@@ -974,7 +976,7 @@ export default function AuctionPage() {
                       </motion.button>
                       <motion.button
                         onClick={markUnsold}
-                        className="flex-1 px-4 py-2.5 text-base font-bold border-none rounded-xl cursor-pointer shadow-lg backdrop-blur-md bg-red-600/90 text-white"
+                        className="flex-1 px-4 py-4 md:py-2.5 text-base md:text-base font-bold border-none rounded-xl cursor-pointer shadow-lg backdrop-blur-md bg-red-600/90 text-white min-h-[48px] touch-manipulation"
                         data-testid="button-unsold"
                         whileHover={{ 
                           scale: 1.05, 
@@ -988,7 +990,7 @@ export default function AuctionPage() {
                       </motion.button>
                       <motion.button
                         onClick={closeViewer}
-                        className="px-4 py-2.5 text-base font-semibold border-none rounded-xl cursor-pointer shadow-lg backdrop-blur-md bg-gray-600/90 text-white"
+                        className="px-4 py-4 md:py-2.5 text-base md:text-base font-semibold border-none rounded-xl cursor-pointer shadow-lg backdrop-blur-md bg-gray-600/90 text-white min-h-[48px] touch-manipulation"
                         data-testid="button-close"
                         whileHover={{ 
                           scale: 1.05, 
@@ -997,7 +999,7 @@ export default function AuctionPage() {
                         whileTap={{ scale: 0.95 }}
                         transition={{ duration: 0.2 }}
                       >
-                        Close
+                        Cancel
                       </motion.button>
                     </motion.div>
                   )}
@@ -1005,7 +1007,7 @@ export default function AuctionPage() {
                   {soldCards.some(p => p.name === currentPlayer.name) && (
                     <div className="bg-green-500/20 backdrop-blur-sm border border-green-400/50 rounded-lg px-4 py-3 text-center">
                       <div className="text-green-300 font-bold text-sm mb-1">SOLD</div>
-                      <div className="text-white font-bold text-2xl">
+                      <div className="text-white font-bold text-xl md:text-2xl">
                         {currentPlayer.soldPrice > 0 ? `₹${formatIndianNumber(currentPlayer.soldPrice)}` : 'N/A'}
                       </div>
                       {currentPlayer.team && currentPlayer.team !== 'N/A' && (
@@ -1017,10 +1019,10 @@ export default function AuctionPage() {
               </div>
 
               {soldCards.some(p => p.name === currentPlayer.name) && (
-                <div className="flex justify-center px-6 pb-4">
+                <div className="flex justify-center px-4 md:px-6 pb-4">
                   <motion.button
                     onClick={closeViewer}
-                    className="px-6 py-2 text-sm font-semibold border-none rounded-lg cursor-pointer shadow-lg backdrop-blur-md bg-gray-600/90 text-white"
+                    className="w-full md:w-auto px-6 py-4 md:py-2 text-base md:text-sm font-semibold border-none rounded-lg cursor-pointer shadow-lg backdrop-blur-md bg-gray-600/90 text-white min-h-[48px] touch-manipulation"
                     data-testid="button-close-sold"
                     whileHover={{ 
                       scale: 1.05, 
