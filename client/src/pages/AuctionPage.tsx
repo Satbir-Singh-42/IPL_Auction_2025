@@ -354,25 +354,59 @@ export default function AuctionPage() {
       
       setTimeout(() => {
         if (players && players.length > 0) {
-          const soldFromSheet = players.filter(p => p.status === 'sold');
-          const sheetSoldNames = new Set(soldFromSheet.map(p => p.name));
+          // Create a map of fresh player data from sheet for quick lookup
+          const freshPlayerMap = new Map(players.map(p => [p.name, p]));
           
-          const sessionSold = soldCards.filter(p => !sheetSoldNames.has(p.name));
+          // Update active cards: refresh internal details but keep sold/unsold status
+          const updatedActive = activeCards.map(localPlayer => {
+            const freshData = freshPlayerMap.get(localPlayer.name);
+            if (freshData) {
+              // Update internal details but preserve local sold/unsold status
+              return {
+                ...freshData,
+                isUnsold: localPlayer.isUnsold, // Keep local unsold status
+                status: localPlayer.status, // Keep local status
+                soldPrice: localPlayer.soldPrice, // Keep local sold price
+                team: localPlayer.team, // Keep local team assignment
+              };
+            }
+            return localPlayer; // If not found in sheet, keep as is
+          });
           
-          const mergedSold = [...soldFromSheet, ...sessionSold];
-          setSoldCards(mergedSold);
-          setSoldFromSheetNames(sheetSoldNames);
+          // Update sold cards: refresh internal details but keep sold status
+          const updatedSold = soldCards.map(localPlayer => {
+            const freshData = freshPlayerMap.get(localPlayer.name);
+            if (freshData) {
+              // Update internal details but preserve local sold status
+              return {
+                ...freshData,
+                status: 'sold' as const, // Keep as sold
+                soldPrice: localPlayer.soldPrice, // Keep local sold price
+                team: localPlayer.team, // Keep local team assignment
+                isUnsold: false, // Sold players cannot be unsold
+              };
+            }
+            return localPlayer; // If not found in sheet, keep as is
+          });
           
-          const updatedActive = activeCards.filter(p => !sheetSoldNames.has(p.name));
           setActiveCards(updatedActive);
+          setSoldCards(updatedSold);
           
+          // Update unsold count from refreshed active cards
           const unsoldPlayersCount = updatedActive.filter(p => p.isUnsold).length;
           setUnsoldCount(unsoldPlayersCount);
           
-          if (currentPlayer && soldFromSheet.find(p => p.name === currentPlayer.name)) {
-            const updatedPlayer = soldFromSheet.find(p => p.name === currentPlayer.name);
-            if (updatedPlayer) {
-              setCurrentPlayer(updatedPlayer);
+          // Update current player if viewing one
+          if (currentPlayer) {
+            const freshData = freshPlayerMap.get(currentPlayer.name);
+            if (freshData) {
+              setCurrentPlayer({
+                ...freshData,
+                isUnsold: currentPlayer.isUnsold,
+                status: currentPlayer.status,
+                soldPrice: currentPlayer.soldPrice,
+                team: currentPlayer.team,
+              });
             }
           }
         }
