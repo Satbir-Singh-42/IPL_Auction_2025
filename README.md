@@ -33,6 +33,10 @@ The **Auction Page** (`/auction`) is the centerpiece of this application, provid
 
 #### Interactive Bidding System
 - **Dynamic Bid Increment** - Configurable bid increments
+- **Tap to Increment (Mobile Only)** - Tap the bid area to increase bid amount on mobile devices (768px or smaller)
+  - Desktop users see read-only bid display
+  - Mobile users can tap to increment with visual feedback
+  - Responsive detection with automatic adjustment on window resize
 - **Quick Actions** - Mark players as Sold or Unsold with visual effects:
   - 🎉 **Sold**: Celebration confetti animation
   - ❌ **Unsold**: UNSOLD stamp with animation
@@ -72,6 +76,10 @@ The **Auction Page** (`/auction`) is the centerpiece of this application, provid
 #### Mobile Optimization
 - **Responsive Layout** - Adapts to all screen sizes
 - **Touch-Friendly** - Large tap targets and swipe gestures
+- **Mobile-Only Tap to Increment** - Bid increment via tap only enabled on screens ≤768px
+  - Automatic mobile detection with window resize listener
+  - No click handler on desktop for cleaner UX
+  - Conditional UI elements (increment hints shown only on mobile)
 - **Compact Stats Display** - Abbreviated labels on small screens (A/S/U)
 - **Flexible Buttons** - Stack vertically on mobile, horizontal on desktop
 - **Optimized Typography** - Scales from mobile to desktop
@@ -148,36 +156,64 @@ npm run dev
 ## 📁 Project Structure
 
 ```
-├── client/                 # Frontend React application
+├── client/                          # Frontend React application
 │   ├── src/
-│   │   ├── components/     # Reusable UI components
-│   │   │   ├── ui/         # shadcn/ui component library
-│   │   │   ├── LeaderboardView.tsx    # Leaderboard with rankings
-│   │   │   ├── PlayerCard.tsx         # Player display cards
-│   │   │   ├── PlayerDetailsModal.tsx # Player detail modal
-│   │   │   ├── TeamCard.tsx           # Team overview cards
-│   │   │   └── ...
-│   │   ├── hooks/          # Custom React hooks
-│   │   │   └── useIPLData.ts          # Google Sheets data hook
-│   │   ├── lib/            # Utility libraries
-│   │   ├── pages/          # Page components
-│   │   │   ├── AuctionPage.tsx        # Main auction interface
-│   │   │   ├── HomePage.tsx           # Overview dashboard
-│   │   │   └── ...
-│   │   ├── services/       # Google Sheets integration
-│   │   │   └── googleSheetsService.ts
-│   │   └── App.tsx         # Main app component with routing
-│   ├── public/             # Public static files
-│   │   └── images/         # Auction assets & team logos
-│   └── index.html          # HTML entry point
-├── shared/                 # Shared configuration and types
-│   ├── schema.ts           # Data schemas and types
-│   └── config.ts           # Application configuration (auction rules, UI styling)
-├── package.json            # Dependencies and scripts
-├── vite.config.ts          # Vite build configuration
-├── vercel.json             # Vercel deployment configuration
-├── tsconfig.json           # TypeScript configuration
-└── tailwind.config.ts      # Tailwind CSS theming
+│   │   ├── components/              # Reusable UI components
+│   │   │   ├── ui/                  # shadcn/ui component library (40+ components)
+│   │   │   ├── GuidelinesView.tsx   # Tournament guidelines display
+│   │   │   ├── LeaderboardView.tsx  # Team rankings with circular indicators
+│   │   │   ├── LoadingPage.tsx      # Full-screen loading animation
+│   │   │   ├── PageTransition.tsx   # Smooth page transitions
+│   │   │   ├── PlayerCards.tsx      # Grid of player cards
+│   │   │   ├── PlayerDetailsModal.tsx # Full player detail popup
+│   │   │   └── PlayerTable.tsx      # Sortable player data table
+│   │   ├── config/                  # Application configuration
+│   │   │   ├── README.md            # Team branding setup guide
+│   │   │   └── teamBranding.ts      # Team logos & colors config
+│   │   ├── hooks/                   # Custom React hooks
+│   │   │   ├── use-mobile.tsx       # Mobile detection hook
+│   │   │   ├── use-toast.ts         # Toast notification hook
+│   │   │   └── useIPLData.ts        # Google Sheets data fetching hook
+│   │   ├── lib/                     # Utility libraries
+│   │   │   ├── queryClient.ts       # TanStack Query setup & config
+│   │   │   └── utils.ts             # Helper functions (cn, formatters)
+│   │   ├── pages/                   # Full page components
+│   │   │   ├── sections/            # Page subsections
+│   │   │   │   ├── PlayerAuctionSection.tsx   # Player cards grid
+│   │   │   │   └── PlayerDetailsSection.tsx   # Player details layout
+│   │   │   ├── AuctionPage.tsx      # Main auction management interface
+│   │   │   ├── ElementLight.tsx     # Homepage dashboard
+│   │   │   ├── not-found.tsx        # 404 error page
+│   │   │   ├── PlayingXI.tsx        # Playing XI team selection
+│   │   │   ├── TeamDashboard.tsx    # Individual team details page
+│   │   │   └── TeamsListing.tsx     # All teams overview
+│   │   ├── services/                # External service integrations
+│   │   │   └── googleSheetsService.ts  # Google Sheets CSV fetching & parsing
+│   │   ├── App.tsx                  # Main app with routing (Wouter)
+│   │   ├── index.css                # Global styles & Tailwind config
+│   │   └── main.tsx                 # React app entry point
+│   ├── public/                      # Public static files
+│   │   ├── images/                  # Image assets
+│   │   │   ├── auction/             # Auction page assets
+│   │   │   │   ├── background.png   # Auction backdrop image
+│   │   │   │   └── unsold.png       # UNSOLD stamp overlay
+│   │   │   └── teams/               # Team logos directory
+│   │   ├── favicon.ico              # ISTE logo favicon
+│   │   └── og-image.png             # Open Graph social preview
+│   └── index.html                   # HTML entry point with meta tags
+├── shared/                          # Shared across frontend/backend
+│   ├── schema.ts                    # TypeScript type definitions
+│   └── config.ts                    # Auction & Playing XI rules config
+├── attached_assets/                 # User-uploaded assets
+├── components.json                  # shadcn/ui component config
+├── package.json                     # Dependencies and npm scripts
+├── package-lock.json                # Locked dependency versions
+├── postcss.config.js                # PostCSS config for Tailwind
+├── tailwind.config.ts               # Tailwind theme customization
+├── tsconfig.json                    # TypeScript compiler options
+├── vite.config.ts                   # Vite bundler configuration
+├── vercel.json                      # Vercel deployment settings
+└── README.md                        # This file - complete documentation
 ```
 
 ## 🎮 Usage Guide
@@ -261,6 +297,7 @@ The dashboard features multiple pages accessible via navigation:
 - **Swipe Left** - Navigate to next player
 - **Swipe Right** - Navigate to previous player
 - **Tap Player Card** - Open player viewer
+- **Tap Bid Area** - Increment current bid (mobile only, ≤768px)
 - **Tap Outside Modal** - Close viewer
 
 ## 🛠️ Development
@@ -307,12 +344,37 @@ npm run build
 ### Code Style Guidelines
 
 - **TypeScript** - Strict mode with comprehensive type safety
+  - All types defined in `shared/schema.ts` for consistency
+  - Runtime validation with Zod schemas
+  - No `any` types allowed (use `unknown` with type guards)
 - **Component Structure** - React functional components with hooks
+  - Prefer composition over inheritance
+  - Keep components small and focused (< 300 lines)
+  - Extract reusable logic into custom hooks
 - **Styling** - Tailwind CSS utility classes with shadcn/ui components
-- **State Management** - TanStack Query for server state, useState for local state
-- **Data Fetching** - Direct Google Sheets integration via frontend services
-- **File Organization** - Feature-based organization with shared components
-- **Responsive Design** - Mobile-first approach with Tailwind breakpoints
+  - Use `cn()` utility for conditional classes
+  - Follow mobile-first responsive design
+  - Dark mode support via CSS variables
+- **State Management** 
+  - TanStack Query for server state (5s cache on home, 60s on auction)
+  - React useState for UI state
+  - Local Storage for persistent auction state
+  - No global state management library needed
+- **Data Fetching** 
+  - Direct Google Sheets CSV export URLs
+  - Papa Parse for CSV parsing
+  - Automatic retry and error handling
+  - Client-side caching with stale-while-revalidate
+- **File Organization** 
+  - Feature-based in `pages/` directory
+  - Reusable components in `components/`
+  - Shared utilities in `lib/`
+  - Configuration in `config/` and `shared/`
+- **Responsive Design** 
+  - Mobile-first approach (design for 375px, scale up)
+  - Breakpoints: sm (640px), md (768px), lg (1024px), xl (1280px)
+  - Touch-friendly tap targets (min 48px)
+  - Mobile-specific features (e.g., tap to increment on ≤768px)
 
 ## 🔍 Troubleshooting
 
@@ -348,44 +410,30 @@ Failed to load resource: the server responded with a status of 400
 - Swipe distance must be at least 50px
 - Try disabling browser gesture navigation
 
+#### 5. Tap to Increment Not Working
+
+**Solution**:
+- Verify you're on a mobile device or screen width ≤768px
+- Desktop users cannot tap to increment (by design)
+- Resize browser window to mobile width to test
+- Use keyboard shortcuts (Space/Enter/Any Key) as alternative
+
 ## 🔧 Configuration
 
 ### Google Sheets Setup
 
-#### Required Sheet Structure
-
-**Teams & Budget Sheet** columns:
-- Team Name
-- Initial Budget
-- Total Spent
-- Funds Remaining
-- Players Count
-- Foreign Players
-- Total Points
-
-**Players Catalogue** columns:
-- Player Name
-- Base Price
-- Category
-- Role
-- Nationality
-- Team (if sold)
-- Images (optional)
-- Age, Matches, Points
-
-**Auctioneer Sheet** columns:
-- Player Name
-- Status (Sold/Unsold)
-- Final Amount
-- Winning Team
+**Note**: The Google Sheets structure and configuration will be provided separately. The application requires properly formatted sheets for Teams & Budget, Players Catalogue, and Auctioneer data.
 
 #### Sheet Permissions
 
-1. Open Google Sheet → Share
+For the application to fetch data:
+1. Open your Google Sheet → Share
 2. Set to "Anyone with the link can view"
-3. Copy sheet URL
-4. Extract spreadsheet ID from URL
-5. Update in `client/src/services/googleSheetsService.ts`
+3. Ensure CSV export is enabled (default for public sheets)
+4. Copy the spreadsheet ID from the URL
+5. Update the ID in `client/src/services/googleSheetsService.ts`
+
+**Important**: The service automatically handles multiple sheet formats and will attempt various GID values to locate the correct data. You may see expected 400 errors in the console during this discovery process.
 
 ### Application Settings
 
@@ -493,19 +541,158 @@ We welcome contributions! Here's how:
    - Reference any related issues
    - Include screenshots if UI changes
 
+## 🔐 Environment Variables
+
+This application runs entirely on the frontend and does not require environment variables for basic operation. All configuration is done through:
+
+- **Google Sheets Integration**: Spreadsheet ID configured in `client/src/services/googleSheetsService.ts`
+- **Auction Rules**: Configured in `shared/config.ts`
+- **Team Branding**: Configured in `client/src/config/teamBranding.ts`
+
+### Optional Environment Variables
+
+For advanced deployments, you can use:
+
+```bash
+# Vite-specific (must be prefixed with VITE_)
+VITE_GOOGLE_SHEET_ID=your_spreadsheet_id_here
+VITE_API_BASE_URL=https://your-api-url.com
+```
+
+**Note**: Environment variables in Vite must be prefixed with `VITE_` to be accessible in the frontend code via `import.meta.env.VITE_*`
+
+## 📦 Dependencies
+
+### Core Dependencies
+- **React 18** - UI library
+- **TypeScript** - Type safety
+- **Vite** - Build tool and dev server
+- **Wouter** - Lightweight routing (4KB alternative to React Router)
+- **TanStack Query** - Server state management
+- **Framer Motion** - Smooth animations and transitions
+- **Tailwind CSS** - Utility-first styling
+- **shadcn/ui** - High-quality component library
+
+### Key Libraries
+- **Papa Parse** - CSV parsing for Google Sheets data
+- **date-fns** - Date formatting and manipulation
+- **Lucide React** - Beautiful icon library
+- **canvas-confetti** - Celebration effects
+- **Zod** - Runtime type validation
+- **clsx & tailwind-merge** - Conditional class utilities
+
+### Development Tools
+- **TypeScript 5.x** - Enhanced type checking
+- **Vite 5.x** - Fast HMR and builds
+- **PostCSS** - CSS processing
+- **Autoprefixer** - Browser compatibility
+
 ## 📄 License
 
 This project is licensed under the MIT License.
 
 ## 🚀 Deployment
 
-### Deployment Options
+This is a static frontend application that can be deployed to any static hosting platform.
 
-- **Vercel**: Fast static site deployment with serverless functions
-- **Render**: Traditional Node.js hosting with automatic builds
-- **Netlify**: Static site with serverless functions
-- **Railway**: Modern app platform with automatic deployments
-- **DigitalOcean**: VPS hosting for full control
+### Recommended: Vercel (Optimized)
+
+The project includes `vercel.json` configuration for zero-config deployment:
+
+1. **Connect Repository**
+   ```bash
+   # Install Vercel CLI
+   npm i -g vercel
+   
+   # Deploy
+   vercel
+   ```
+
+2. **Automatic Deployments**
+   - Push to `main` branch triggers production deployment
+   - Pull requests get preview deployments
+   - Edge network CDN for global performance
+
+### Alternative Platforms
+
+#### Netlify
+```bash
+# Build command
+npm run build
+
+# Publish directory
+dist
+
+# Environment variables (none required)
+```
+
+#### Render
+```yaml
+# render.yaml
+services:
+  - type: web
+    name: ipl-auction-dashboard
+    env: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+```
+
+#### GitHub Pages
+```bash
+# Install gh-pages
+npm install -D gh-pages
+
+# Add to package.json scripts
+"deploy": "npm run build && gh-pages -d dist"
+
+# Deploy
+npm run deploy
+```
+
+#### Self-Hosted (Nginx)
+```nginx
+server {
+    listen 80;
+    server_name your-domain.com;
+    
+    root /var/www/ipl-dashboard/dist;
+    index index.html;
+    
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+    
+    # Cache static assets
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+}
+```
+
+### Build Configuration
+
+**Important**: The application is already configured for static deployment. No server-side code is required.
+
+```json
+{
+  "build": {
+    "command": "npm run build",
+    "output": "dist"
+  }
+}
+```
+
+### Post-Deployment Checklist
+
+- [ ] Verify Google Sheets are publicly accessible
+- [ ] Test all navigation routes work (SPA routing)
+- [ ] Confirm images load correctly
+- [ ] Check mobile responsiveness
+- [ ] Test tap to increment on mobile devices
+- [ ] Verify data refreshes automatically
+- [ ] Test keyboard shortcuts work
+- [ ] Confirm confetti animation works on sold actions
 
 ## 🙏 Acknowledgments
 
