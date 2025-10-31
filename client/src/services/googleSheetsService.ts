@@ -493,12 +493,6 @@ class GoogleSheetsService {
   }
 
   getTeamLogo(teamName: string): string {
-    // First try to get logo from the asset mapping (for custom uploaded logos)
-    const logoUrl = getTeamLogo(teamName);
-    if (logoUrl) {
-      return logoUrl;
-    }
-    
     // Use centralized branding configuration
     const logo = getTeamLogo(teamName);
     
