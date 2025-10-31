@@ -34,6 +34,17 @@ export default function AuctionPage() {
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isPageReady, setIsPageReady] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.matchMedia('(max-width: 768px)').matches);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     const img = new Image();
@@ -943,19 +954,21 @@ export default function AuctionPage() {
 
                   {!soldCards.some(p => p.name === currentPlayer.name) && (
                     <motion.div 
-                      onClick={() => setCurrentBid(prev => prev + AUCTION_CONFIG.bidIncrement)}
-                      className="backdrop-blur-xl bg-blue-600/10 rounded-lg p-3 md:p-4 border-2 border-blue-400/30 cursor-pointer select-none active:scale-95 transition-transform"
+                      onClick={isMobile ? () => setCurrentBid(prev => prev + AUCTION_CONFIG.bidIncrement) : undefined}
+                      className={`backdrop-blur-xl bg-blue-600/10 rounded-lg p-3 md:p-4 border-2 border-blue-400/30 select-none transition-transform ${isMobile ? 'cursor-pointer active:scale-95' : ''}`}
                       data-testid="bid-increment-area"
-                      whileHover={{ 
+                      whileHover={isMobile ? { 
                         scale: 1.02,
                         borderColor: "rgba(96, 165, 250, 0.6)",
                         backgroundColor: "rgba(37, 99, 235, 0.15)"
-                      }}
-                      whileTap={{ scale: 0.98 }}
+                      } : undefined}
+                      whileTap={isMobile ? { scale: 0.98 } : undefined}
                     >
                       <div className="text-blue-300 text-xs md:text-sm mb-1 font-semibold flex items-center justify-between">
                         <span>Current Bid</span>
-                        <span className="text-[10px] md:text-xs bg-blue-500/30 px-2 py-0.5 rounded">TAP TO INCREMENT</span>
+                        {isMobile && (
+                          <span className="text-[10px] md:text-xs bg-blue-500/30 px-2 py-0.5 rounded">TAP TO INCREMENT</span>
+                        )}
                       </div>
                       <div 
                         className="text-white text-2xl md:text-3xl font-bold" 
@@ -963,9 +976,11 @@ export default function AuctionPage() {
                       >
                         ₹{formatIndianNumber(currentBid)}
                       </div>
-                      <div className="text-blue-200/60 text-[10px] md:text-xs mt-1">
-                        +₹{formatIndianNumber(AUCTION_CONFIG.bidIncrement)} per tap
-                      </div>
+                      {isMobile && (
+                        <div className="text-blue-200/60 text-[10px] md:text-xs mt-1">
+                          +₹{formatIndianNumber(AUCTION_CONFIG.bidIncrement)} per tap
+                        </div>
+                      )}
                     </motion.div>
                   )}
 
