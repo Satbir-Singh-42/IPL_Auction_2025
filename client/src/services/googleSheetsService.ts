@@ -59,6 +59,10 @@ class GoogleSheetsService {
   private playerCacheTimestamp: number = 0;
   private teamCacheTimestamp: number = 0;
   private readonly CACHE_DURATION = 5000; // 5 seconds
+  
+  // In-flight request tracking to prevent duplicate fetches
+  private playerFetchPromise: Promise<Player[]> | null = null;
+  private teamFetchPromise: Promise<TeamStats[]> | null = null;
 
   private async fetchCSVData(identifier: string = '0', sheetName: string = 'Unknown', useSheetName: boolean = false): Promise<any[]> {
     try {
@@ -174,6 +178,25 @@ class GoogleSheetsService {
       return this.playerDataCache;
     }
     
+    // If a fetch is already in progress, return that promise instead of starting a new one
+    if (this.playerFetchPromise) {
+      console.log('Player fetch already in progress, waiting for existing request...');
+      return this.playerFetchPromise;
+    }
+    
+    // Start a new fetch and track the promise
+    this.playerFetchPromise = this.fetchPlayersData();
+    
+    try {
+      const result = await this.playerFetchPromise;
+      return result;
+    } finally {
+      // Clear the in-flight promise once complete
+      this.playerFetchPromise = null;
+    }
+  }
+
+  private async fetchPlayersData(): Promise<Player[]> {
     console.log('Fetching fresh player data from both Players Catalogue and Auctioneer Sheet...');
     
     // First, get the base player data from Players Catalogue
@@ -299,6 +322,25 @@ class GoogleSheetsService {
       return this.teamStatsCache;
     }
     
+    // If a fetch is already in progress, return that promise instead of starting a new one
+    if (this.teamFetchPromise) {
+      console.log('Team fetch already in progress, waiting for existing request...');
+      return this.teamFetchPromise;
+    }
+    
+    // Start a new fetch and track the promise
+    this.teamFetchPromise = this.fetchTeamStatsData();
+    
+    try {
+      const result = await this.teamFetchPromise;
+      return result;
+    } finally {
+      // Clear the in-flight promise once complete
+      this.teamFetchPromise = null;
+    }
+  }
+
+  private async fetchTeamStatsData(): Promise<TeamStats[]> {
     console.log('Fetching team data directly from Teams & Budget sheet...');
     const teamBudgetData = await this.fetchCSVData('Teams & Budget', 'Teams & Budget', true);
     
