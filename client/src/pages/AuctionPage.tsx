@@ -492,7 +492,7 @@ export default function AuctionPage() {
   useEffect(() => {
     const syncInterval = setInterval(() => {
       syncSoldPlayersFromSheet();
-    }, 60000);
+    }, 30000);
 
     return () => clearInterval(syncInterval);
   }, [players, soldCards]);
