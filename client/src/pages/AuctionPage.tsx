@@ -377,7 +377,7 @@ export default function AuctionPage() {
           let updatedSoldCount = 0;
           let notFoundInSheetCount = 0;
           
-          // Update active cards: ONLY update existing players, NO additions or removals
+          // Update active cards: Update existing players and track them
           const updatedActive = activeCards.map(localPlayer => {
             const freshData = freshPlayerMap.get(localPlayer.name);
             if (freshData) {
@@ -397,7 +397,7 @@ export default function AuctionPage() {
             return localPlayer;
           });
           
-          // Update sold cards: ONLY update existing players, NO additions or removals
+          // Update sold cards: Update existing players and track them
           const updatedSold = soldCards.map(localPlayer => {
             const freshData = freshPlayerMap.get(localPlayer.name);
             if (freshData) {
@@ -417,24 +417,43 @@ export default function AuctionPage() {
             return localPlayer;
           });
           
-          // Calculate new players in sheet that we're NOT adding
+          // Find new players in sheet that aren't in the auction yet
           const localPlayerNames = new Set([
             ...activeCards.map(p => p.name),
             ...soldCards.map(p => p.name)
           ]);
           const newPlayersInSheet = players.filter(p => !localPlayerNames.has(p.name));
           
+          // Add new players to active cards (only if they're not already sold in the sheet)
+          const newPlayersToAdd = newPlayersInSheet.filter(p => p.status !== 'sold');
+          if (newPlayersToAdd.length > 0) {
+            console.log(`Adding ${newPlayersToAdd.length} new players:`, newPlayersToAdd.map(p => p.name));
+            updatedActive.push(...newPlayersToAdd);
+          }
+          
+          // Add new sold players to sold cards
+          const newSoldPlayers = newPlayersInSheet.filter(p => p.status === 'sold');
+          if (newSoldPlayers.length > 0) {
+            console.log(`Adding ${newSoldPlayers.length} new sold players:`, newSoldPlayers.map(p => p.name));
+            updatedSold.push(...newSoldPlayers);
+          }
+          
           // Log sync results
+          const totalNewPlayers = newPlayersToAdd.length + newSoldPlayers.length;
           console.log('🔄 Soft Check Sync Complete:');
           console.log(`  📊 Sheet Players: ${sheetPlayerCount}`);
-          console.log(`  📊 Auction Players: ${currentPlayerCount}`);
+          console.log(`  📊 Auction Players Before: ${currentPlayerCount}`);
+          console.log(`  📊 Auction Players After: ${updatedActive.length + updatedSold.length}`);
           console.log(`  ✅ Updated Active: ${updatedActiveCount}`);
           console.log(`  ✅ Updated Sold: ${updatedSoldCount}`);
           console.log(`  ⚠️ Not in Sheet (cached): ${notFoundInSheetCount}`);
-          console.log(`  ➕ New in Sheet (ignored): ${newPlayersInSheet.length}`);
+          console.log(`  ➕ New Players Added: ${totalNewPlayers}`);
           
-          if (newPlayersInSheet.length > 0) {
-            console.log(`  📋 New players detected but NOT added:`, newPlayersInSheet.map(p => p.name));
+          if (totalNewPlayers > 0) {
+            console.log(`  📋 New active players added:`, newPlayersToAdd.map(p => p.name));
+            if (newSoldPlayers.length > 0) {
+              console.log(`  📋 New sold players added:`, newSoldPlayers.map(p => p.name));
+            }
           }
           
           // Apply updates - same count as before, just refreshed data
@@ -460,10 +479,21 @@ export default function AuctionPage() {
           }
           
           // Show toast notification with sync results
+          const syncMessage = [];
+          if (updatedActiveCount + updatedSoldCount > 0) {
+            syncMessage.push(`Updated ${updatedActiveCount + updatedSoldCount} existing players`);
+          }
+          if (totalNewPlayers > 0) {
+            syncMessage.push(`Added ${totalNewPlayers} new players from sheet`);
+          }
+          if (notFoundInSheetCount > 0) {
+            syncMessage.push(`${notFoundInSheetCount} cached players preserved`);
+          }
+          
           toast({
             title: "Player Data Synced",
-            description: `Updated ${updatedActiveCount + updatedSoldCount} players. ${newPlayersInSheet.length > 0 ? `${newPlayersInSheet.length} new player(s) in sheet (not added to auction).` : ''}`,
-            duration: 3000,
+            description: syncMessage.join('. ') + '.',
+            duration: 4000,
           });
         }
         setIsSyncing(false);
