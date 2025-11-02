@@ -368,11 +368,21 @@ export default function AuctionPage() {
           // Create a map of fresh player data from sheet for quick lookup
           const freshPlayerMap = new Map(players.map(p => [p.name, p]));
           
-          // Update active cards: refresh internal details but keep sold/unsold status
+          // SOFT CHECK: Compare player counts
+          const currentPlayerCount = activeCards.length + soldCards.length;
+          const sheetPlayerCount = players.length;
+          
+          // Track sync statistics
+          let updatedActiveCount = 0;
+          let updatedSoldCount = 0;
+          let notFoundInSheetCount = 0;
+          
+          // Update active cards: ONLY update existing players, NO additions or removals
           const updatedActive = activeCards.map(localPlayer => {
             const freshData = freshPlayerMap.get(localPlayer.name);
             if (freshData) {
-              // Update internal details but preserve local sold/unsold status
+              updatedActiveCount++;
+              // Update internal details but preserve ALL local state
               return {
                 ...freshData,
                 isUnsold: localPlayer.isUnsold, // Keep local unsold status
@@ -381,14 +391,18 @@ export default function AuctionPage() {
                 team: localPlayer.team, // Keep local team assignment
               };
             }
-            return localPlayer; // If not found in sheet, keep as is
+            // Player not found in sheet - preserve local cached data completely
+            notFoundInSheetCount++;
+            console.log(`Player "${localPlayer.name}" not found in sheet - keeping cached data`);
+            return localPlayer;
           });
           
-          // Update sold cards: refresh internal details but keep sold status
+          // Update sold cards: ONLY update existing players, NO additions or removals
           const updatedSold = soldCards.map(localPlayer => {
             const freshData = freshPlayerMap.get(localPlayer.name);
             if (freshData) {
-              // Update internal details but preserve local sold status
+              updatedSoldCount++;
+              // Update internal details but preserve ALL local state
               return {
                 ...freshData,
                 status: 'sold' as const, // Keep as sold
@@ -397,9 +411,33 @@ export default function AuctionPage() {
                 isUnsold: false, // Sold players cannot be unsold
               };
             }
-            return localPlayer; // If not found in sheet, keep as is
+            // Player not found in sheet - preserve local cached data completely
+            notFoundInSheetCount++;
+            console.log(`Player "${localPlayer.name}" not found in sheet - keeping cached data`);
+            return localPlayer;
           });
           
+          // Calculate new players in sheet that we're NOT adding
+          const localPlayerNames = new Set([
+            ...activeCards.map(p => p.name),
+            ...soldCards.map(p => p.name)
+          ]);
+          const newPlayersInSheet = players.filter(p => !localPlayerNames.has(p.name));
+          
+          // Log sync results
+          console.log('🔄 Soft Check Sync Complete:');
+          console.log(`  📊 Sheet Players: ${sheetPlayerCount}`);
+          console.log(`  📊 Auction Players: ${currentPlayerCount}`);
+          console.log(`  ✅ Updated Active: ${updatedActiveCount}`);
+          console.log(`  ✅ Updated Sold: ${updatedSoldCount}`);
+          console.log(`  ⚠️ Not in Sheet (cached): ${notFoundInSheetCount}`);
+          console.log(`  ➕ New in Sheet (ignored): ${newPlayersInSheet.length}`);
+          
+          if (newPlayersInSheet.length > 0) {
+            console.log(`  📋 New players detected but NOT added:`, newPlayersInSheet.map(p => p.name));
+          }
+          
+          // Apply updates - same count as before, just refreshed data
           setActiveCards(updatedActive);
           setSoldCards(updatedSold);
           
@@ -420,10 +458,24 @@ export default function AuctionPage() {
               });
             }
           }
+          
+          // Show toast notification with sync results
+          toast({
+            title: "Player Data Synced",
+            description: `Updated ${updatedActiveCount + updatedSoldCount} players. ${newPlayersInSheet.length > 0 ? `${newPlayersInSheet.length} new player(s) in sheet (not added to auction).` : ''}`,
+            duration: 3000,
+          });
         }
         setIsSyncing(false);
       }, 1000);
     } catch (error) {
+      console.error('Sync error:', error);
+      toast({
+        title: "Sync Failed",
+        description: "Could not refresh player data from sheet.",
+        variant: "destructive",
+        duration: 3000,
+      });
       setIsSyncing(false);
     }
   };
