@@ -14,12 +14,13 @@ const backgroundImage = "/images/auction/background.png";
 const unsoldStampImage = "/images/auction/unsold.png";
 
 export default function AuctionPage() {
-  const { players, refreshAllData } = useIPLData();
+  const { players, refetchPlayers } = useIPLData();
   const { toast } = useToast();
   const [, setLocation] = useLocation();
   const [activeCards, setActiveCards] = useState<Player[]>([]);
   const [soldCards, setSoldCards] = useState<Player[]>([]);
   const [soldFromSheetNames, setSoldFromSheetNames] = useState<Set<string>>(new Set());
+  const [unsoldPlayerNames, setUnsoldPlayerNames] = useState<Set<string>>(new Set());
   const [unsoldCount, setUnsoldCount] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [viewerOpen, setViewerOpen] = useState(false);
@@ -53,46 +54,41 @@ export default function AuctionPage() {
 
   useEffect(() => {
     if (players && players.length > 0) {
-      const soldFromSheet = players.filter(p => p.status === 'sold');
-      const sheetSoldNames = new Set(soldFromSheet.map(p => p.name));
-      setSoldFromSheetNames(sheetSoldNames);
-      
+      // Load unsold player names from localStorage
       const saved = localStorage.getItem("auctionPageState");
+      let savedUnsoldNames = new Set<string>();
       if (saved) {
         try {
           const state = JSON.parse(saved);
-          
-          const sessionActive = state.active || [];
-          const sessionSold = state.sold || [];
-          
-          const sessionSoldNotInSheet = sessionSold.filter((p: Player) => 
-            !sheetSoldNames.has(p.name)
-          );
-          
-          const finalSold = [...soldFromSheet, ...sessionSoldNotInSheet];
-          
-          const finalActive = sessionActive.filter((p: Player) => 
-            !sheetSoldNames.has(p.name)
-          );
-          
-          const unsoldPlayersCount = finalActive.filter((p: Player) => p.isUnsold).length;
-          
-          setActiveCards(finalActive);
-          setSoldCards(finalSold);
-          setUnsoldCount(unsoldPlayersCount);
+          savedUnsoldNames = new Set(state.unsoldPlayerNames || []);
         } catch (e) {
-          const allPlayersNotSold = players.filter(p => p.status !== 'sold');
-          setActiveCards(allPlayersNotSold);
-          setSoldCards(soldFromSheet);
-          setUnsoldCount(0);
+          console.error('Error loading saved state:', e);
         }
-      } else {
-        const allPlayersNotSold = players.filter(p => p.status !== 'sold');
-        setActiveCards(allPlayersNotSold);
-        setSoldCards(soldFromSheet);
-        setUnsoldCount(0);
       }
       
+      setUnsoldPlayerNames(savedUnsoldNames);
+      
+      // Build active/sold from fresh sheet data, applying unsold flags from Set
+      const active: Player[] = [];
+      const sold: Player[] = [];
+      const sheetSoldNames = new Set<string>();
+      
+      players.forEach(player => {
+        const isMarkedUnsold = savedUnsoldNames.has(player.name);
+        const playerWithUnsold = { ...player, isUnsold: isMarkedUnsold };
+        
+        if (player.status === 'sold') {
+          sold.push(playerWithUnsold);
+          sheetSoldNames.add(player.name);
+        } else {
+          active.push(playerWithUnsold);
+        }
+      });
+      
+      setActiveCards(active);
+      setSoldCards(sold);
+      setSoldFromSheetNames(sheetSoldNames);
+      setUnsoldCount(active.filter(p => p.isUnsold).length);
       setIsPageReady(true);
     }
   }, [players]);
@@ -101,11 +97,9 @@ export default function AuctionPage() {
     if (!players || players.length === 0) return;
     
     localStorage.setItem("auctionPageState", JSON.stringify({
-      active: activeCards,
-      sold: soldCards,
-      unsoldCount: unsoldCount
+      unsoldPlayerNames: Array.from(unsoldPlayerNames)
     }));
-  }, [activeCards, soldCards, unsoldCount, players]);
+  }, [unsoldPlayerNames, players]);
 
   const filterPlayer = (player: Player, search: string) => {
     return (
@@ -165,7 +159,11 @@ export default function AuctionPage() {
     const newActive = activeCards.filter(p => p.name !== currentPlayer.name);
     const newSold = [...soldCards, soldPlayer];
     
+    // Remove player from unsold Set if they were marked unsold
     if (currentPlayer.isUnsold) {
+      const newUnsoldNames = new Set(unsoldPlayerNames);
+      newUnsoldNames.delete(currentPlayer.name);
+      setUnsoldPlayerNames(newUnsoldNames);
       setUnsoldCount(prev => Math.max(0, prev - 1));
     }
     
@@ -207,6 +205,11 @@ export default function AuctionPage() {
     if (!currentPlayer) return;
 
     setShowUnsoldStamp(true);
+    
+    // Add player to unsold Set
+    const newUnsoldNames = new Set(unsoldPlayerNames);
+    newUnsoldNames.add(currentPlayer.name);
+    setUnsoldPlayerNames(newUnsoldNames);
     setUnsoldCount(prev => prev + 1);
 
     const currentIndex = activeCards.findIndex(p => p.name === currentPlayer.name);
@@ -260,6 +263,10 @@ export default function AuctionPage() {
     const newActive = [...activeCards];
     
     // Mark player as unsold when restoring
+    const newUnsoldNames = new Set(unsoldPlayerNames);
+    newUnsoldNames.add(player.name);
+    setUnsoldPlayerNames(newUnsoldNames);
+    
     const restoredPlayer = { ...player, isUnsold: true, soldPrice: 0 };
     
     const originalIndex = player.originalIndex ?? activeCards.length;
@@ -286,12 +293,21 @@ export default function AuctionPage() {
       setSoldCards(newSold);
       setActiveCards(newActive);
       if (lastAction.wasUnsold) {
+        // Re-add player to unsold Set
+        const newUnsoldNames = new Set(unsoldPlayerNames);
+        newUnsoldNames.add(lastAction.player.name);
+        setUnsoldPlayerNames(newUnsoldNames);
         setUnsoldCount(prev => prev + 1);
       }
       setCurrentPlayer(lastAction.player);
       setCurrentBid(Number(lastAction.player.basePrice) || 0);
       setViewerOpen(true);
     } else if (lastAction.type === 'unsold') {
+      // Remove player from unsold Set
+      const newUnsoldNames = new Set(unsoldPlayerNames);
+      newUnsoldNames.delete(lastAction.player.name);
+      setUnsoldPlayerNames(newUnsoldNames);
+      
       const newActive = activeCards.map(p => 
         p.name === lastAction.player.name ? { ...p, isUnsold: false } : p
       );
@@ -361,128 +377,51 @@ export default function AuctionPage() {
     setIsSyncing(true);
 
     try {
-      await refreshAllData();
+      const { data: freshPlayers } = await refetchPlayers();
       
-      setTimeout(() => {
-        if (players && players.length > 0) {
-          // Create a map of fresh player data from sheet for quick lookup
-          const freshPlayerMap = new Map(players.map(p => [p.name, p]));
+      if (freshPlayers && freshPlayers.length > 0) {
+        // Build active/sold from fresh sheet data, applying unsold flags from Set
+        const active: Player[] = [];
+        const sold: Player[] = [];
+        const sheetSoldNames = new Set<string>();
+        
+        freshPlayers.forEach(player => {
+          const isMarkedUnsold = unsoldPlayerNames.has(player.name);
+          const playerWithUnsold = { ...player, isUnsold: isMarkedUnsold };
           
-          // SOFT CHECK: Compare player counts
-          const currentPlayerCount = activeCards.length + soldCards.length;
-          const sheetPlayerCount = players.length;
-          
-          // Track sync statistics
-          let updatedActiveCount = 0;
-          let updatedSoldCount = 0;
-          let removedCount = 0;
-          
-          // Update active cards: Update existing players, REMOVE players not in sheet
-          const updatedActive: Player[] = [];
-          for (const localPlayer of activeCards) {
-            const freshData = freshPlayerMap.get(localPlayer.name);
-            if (freshData) {
-              updatedActiveCount++;
-              // Update internal details but preserve ALL local state
-              updatedActive.push({
-                ...freshData,
-                isUnsold: localPlayer.isUnsold, // Keep local unsold status
-                status: localPlayer.status, // Keep local status
-                soldPrice: localPlayer.soldPrice, // Keep local sold price
-                team: localPlayer.team, // Keep local team assignment
-              });
-            } else {
-              // Player not found in sheet - will be removed
-              removedCount++;
-              console.log(`Removing player "${localPlayer.name}" - not found in sheet`);
-            }
+          if (player.status === 'sold') {
+            sold.push(playerWithUnsold);
+            sheetSoldNames.add(player.name);
+          } else {
+            active.push(playerWithUnsold);
           }
-          
-          // Update sold cards: Update existing players, REMOVE players not in sheet
-          const updatedSold: Player[] = [];
-          for (const localPlayer of soldCards) {
-            const freshData = freshPlayerMap.get(localPlayer.name);
-            if (freshData) {
-              updatedSoldCount++;
-              // Update internal details but preserve ALL local state
-              updatedSold.push({
-                ...freshData,
-                status: 'sold' as const, // Keep as sold
-                soldPrice: localPlayer.soldPrice, // Keep local sold price
-                team: localPlayer.team, // Keep local team assignment
-                isUnsold: false, // Sold players cannot be unsold
-              });
-            } else {
-              // Player not found in sheet - will be removed
-              removedCount++;
-              console.log(`Removing player "${localPlayer.name}" - not found in sheet`);
-            }
+        });
+        
+        // Log sync results
+        console.log('🔄 Sync Complete:');
+        console.log(`  📊 Sheet Players: ${freshPlayers.length}`);
+        console.log(`  📊 Active Players: ${active.length}`);
+        console.log(`  📊 Sold Players: ${sold.length}`);
+        console.log(`  📊 Unsold Players: ${active.filter(p => p.isUnsold).length}`);
+        
+        setActiveCards(active);
+        setSoldCards(sold);
+        setSoldFromSheetNames(sheetSoldNames);
+        setUnsoldCount(active.filter(p => p.isUnsold).length);
+        
+        // Update current player if viewing one
+        if (currentPlayer) {
+          const updatedPlayer = freshPlayers.find(p => p.name === currentPlayer.name);
+          if (updatedPlayer) {
+            setCurrentPlayer({
+              ...updatedPlayer,
+              isUnsold: unsoldPlayerNames.has(updatedPlayer.name)
+            });
           }
-          
-          // Find new players in sheet that aren't in the auction yet
-          const localPlayerNames = new Set([
-            ...activeCards.map(p => p.name),
-            ...soldCards.map(p => p.name)
-          ]);
-          const newPlayersInSheet = players.filter(p => !localPlayerNames.has(p.name));
-          
-          // Add new players to active cards (only if they're not already sold in the sheet)
-          const newPlayersToAdd = newPlayersInSheet.filter(p => p.status !== 'sold');
-          if (newPlayersToAdd.length > 0) {
-            console.log(`Adding ${newPlayersToAdd.length} new players:`, newPlayersToAdd.map(p => p.name));
-            updatedActive.push(...newPlayersToAdd);
-          }
-          
-          // Add new sold players to sold cards
-          const newSoldPlayers = newPlayersInSheet.filter(p => p.status === 'sold');
-          if (newSoldPlayers.length > 0) {
-            console.log(`Adding ${newSoldPlayers.length} new sold players:`, newSoldPlayers.map(p => p.name));
-            updatedSold.push(...newSoldPlayers);
-          }
-          
-          // Log sync results
-          const totalNewPlayers = newPlayersToAdd.length + newSoldPlayers.length;
-          console.log('🔄 Soft Check Sync Complete:');
-          console.log(`  📊 Sheet Players: ${sheetPlayerCount}`);
-          console.log(`  📊 Auction Players Before: ${currentPlayerCount}`);
-          console.log(`  📊 Auction Players After: ${updatedActive.length + updatedSold.length}`);
-          console.log(`  ✅ Updated Active: ${updatedActiveCount}`);
-          console.log(`  ✅ Updated Sold: ${updatedSoldCount}`);
-          console.log(`  ➕ New Players Added: ${totalNewPlayers}`);
-          console.log(`  ➖ Players Removed: ${removedCount}`);
-          
-          if (totalNewPlayers > 0) {
-            console.log(`  📋 New active players added:`, newPlayersToAdd.map(p => p.name));
-            if (newSoldPlayers.length > 0) {
-              console.log(`  📋 New sold players added:`, newSoldPlayers.map(p => p.name));
-            }
-          }
-          
-          // Apply updates - same count as before, just refreshed data
-          setActiveCards(updatedActive);
-          setSoldCards(updatedSold);
-          
-          // Update unsold count from refreshed active cards
-          const unsoldPlayersCount = updatedActive.filter(p => p.isUnsold).length;
-          setUnsoldCount(unsoldPlayersCount);
-          
-          // Update current player if viewing one
-          if (currentPlayer) {
-            const freshData = freshPlayerMap.get(currentPlayer.name);
-            if (freshData) {
-              setCurrentPlayer({
-                ...freshData,
-                isUnsold: currentPlayer.isUnsold,
-                status: currentPlayer.status,
-                soldPrice: currentPlayer.soldPrice,
-                team: currentPlayer.team,
-              });
-            }
-          }
-          
         }
-        setIsSyncing(false);
-      }, 1000);
+      }
+      
+      setIsSyncing(false);
     } catch (error) {
       console.error('Sync error:', error);
       setIsSyncing(false);

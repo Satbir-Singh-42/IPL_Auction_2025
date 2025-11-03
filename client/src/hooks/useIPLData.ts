@@ -80,5 +80,6 @@ export const useIPLData = () => {
     getSoldPlayersByTeam,
     getUnsoldPlayers,
     refreshAllData,
+    refetchPlayers,
   };
 };
