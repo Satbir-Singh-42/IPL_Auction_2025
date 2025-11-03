@@ -324,7 +324,36 @@ export default function AuctionPage() {
     if (!currentPlayer) return;
     
     const nonUnsoldPlayers = activeCards.filter(p => !p.isUnsold);
-    const currentIndex = nonUnsoldPlayers.findIndex(p => p.name === currentPlayer.name);
+    let currentIndex = nonUnsoldPlayers.findIndex(p => p.name === currentPlayer.name);
+    
+    // If current player is not in nonUnsoldPlayers (e.g., just marked as unsold),
+    // find their position in the full activeCards list and navigate from there
+    if (currentIndex === -1) {
+      const fullListIndex = activeCards.findIndex(p => p.name === currentPlayer.name);
+      if (fullListIndex !== -1) {
+        // Find the next/prev non-unsold player from the current position
+        if (direction === 'next') {
+          const nextPlayer = activeCards.slice(fullListIndex + 1).find(p => !p.isUnsold) || 
+                            nonUnsoldPlayers[0];
+          if (nextPlayer) {
+            setCurrentPlayer(nextPlayer);
+            setCurrentBid(Number(nextPlayer.basePrice) || 0);
+            setShowUnsoldStamp(false);
+          }
+          return;
+        } else {
+          const prevPlayer = activeCards.slice(0, fullListIndex).reverse().find(p => !p.isUnsold) || 
+                            nonUnsoldPlayers[nonUnsoldPlayers.length - 1];
+          if (prevPlayer) {
+            setCurrentPlayer(prevPlayer);
+            setCurrentBid(Number(prevPlayer.basePrice) || 0);
+            setShowUnsoldStamp(false);
+          }
+          return;
+        }
+      }
+      return;
+    }
     
     let nextPlayer: Player | null = null;
     
