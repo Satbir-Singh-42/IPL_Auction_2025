@@ -1003,13 +1003,11 @@ export default function AuctionPage() {
                         className="text-white text-2xl md:text-3xl font-bold" 
                         data-testid="viewer-current-bid"
                       >
-                        ₹{formatIndianNumber(currentBid)}
+                        {currentBid > (currentPlayer.basePrice || 0) 
+                          ? `₹${formatIndianNumber(currentBid)}`
+                          : 'Bid to Start'
+                        }
                       </div>
-                      {isMobile && (
-                        <div className="text-blue-200/60 text-[10px] md:text-xs mt-1">
-                          +₹{formatIndianNumber(AUCTION_CONFIG.bidIncrement)} per tap
-                        </div>
-                      )}
                     </motion.div>
                   )}
 
