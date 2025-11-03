@@ -177,6 +177,7 @@ export const PlayerDetailsSection = (): JSX.Element => {
             defaultSortField="sheetOrder"
             defaultSortDirection="asc"
             showPoints={false}
+            showFinalBidPrice={false}
           />
         );
 

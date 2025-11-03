@@ -18,6 +18,7 @@ interface PlayerTableProps {
   defaultSortField?: SortField;
   defaultSortDirection?: SortDirection;
   showPoints?: boolean;
+  showFinalBidPrice?: boolean;
 }
 
 type SortField = 'name' | 'role' | 'nation' | 'age' | 'basePrice' | 'soldPrice' | 'points' | 'sheetOrder';
@@ -33,7 +34,8 @@ export const PlayerTable: React.FC<PlayerTableProps> = ({
   onTeamFilter,
   defaultSortField = 'name',
   defaultSortDirection = 'asc',
-  showPoints = true
+  showPoints = true,
+  showFinalBidPrice = true
 }) => {
   const [sortField, setSortField] = useState<SortField>(defaultSortField);
   const [sortDirection, setSortDirection] = useState<SortDirection>(defaultSortDirection);
@@ -301,15 +303,17 @@ export const PlayerTable: React.FC<PlayerTableProps> = ({
                       {getSortIcon('basePrice')}
                     </button>
                   </th>
-                  <th className="text-right p-3 md:p-4">
-                    <button 
-                      onClick={() => handleSort('soldPrice')}
-                      className="flex items-center text-white font-semibold hover:text-orange-300 transition-colors"
-                    >
-                      Final Bid Price
-                      {getSortIcon('soldPrice')}
-                    </button>
-                  </th>
+                  {showFinalBidPrice && (
+                    <th className="text-right p-3 md:p-4">
+                      <button 
+                        onClick={() => handleSort('soldPrice')}
+                        className="flex items-center text-white font-semibold hover:text-orange-300 transition-colors"
+                      >
+                        Final Bid Price
+                        {getSortIcon('soldPrice')}
+                      </button>
+                    </th>
+                  )}
                   {showPoints && (
                     <th className="text-center p-3 md:p-4">
                       <button 
@@ -326,7 +330,7 @@ export const PlayerTable: React.FC<PlayerTableProps> = ({
               <tbody>
                 {sortedPlayers.length === 0 ? (
                   <tr>
-                    <td colSpan={showPoints ? 8 : 7} className="text-center py-8 text-gray-400">
+                    <td colSpan={6 + (showFinalBidPrice ? 1 : 0) + (showPoints ? 1 : 0)} className="text-center py-8 text-gray-400">
                       No players found
                     </td>
                   </tr>
@@ -377,13 +381,15 @@ export const PlayerTable: React.FC<PlayerTableProps> = ({
                       <td className="p-3 md:p-4 text-right text-gray-300 text-sm font-medium">
                         {formatCurrency(player.basePrice)}
                       </td>
-                      <td className="p-3 md:p-4 text-right text-gray-300 text-sm font-medium">
-                        {player.status === 'sold' ? (
-                          formatCurrency(player.soldPrice)
-                        ) : (
-                          <span className="text-red-400 font-medium">UNSOLD</span>
-                        )}
-                      </td>
+                      {showFinalBidPrice && (
+                        <td className="p-3 md:p-4 text-right text-gray-300 text-sm font-medium">
+                          {player.status === 'sold' ? (
+                            formatCurrency(player.soldPrice)
+                          ) : (
+                            <span className="text-red-400 font-medium">UNSOLD</span>
+                          )}
+                        </td>
+                      )}
                       {showPoints && (
                         <td className="p-3 md:p-4 text-center text-gray-300 text-sm font-medium">
                           {player.points || '-'}
