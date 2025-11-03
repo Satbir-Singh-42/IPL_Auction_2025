@@ -17,6 +17,7 @@ interface PlayerTableProps {
   onTeamFilter?: (teamId: string | null) => void;
   defaultSortField?: SortField;
   defaultSortDirection?: SortDirection;
+  showPoints?: boolean;
 }
 
 type SortField = 'name' | 'role' | 'nation' | 'age' | 'basePrice' | 'soldPrice' | 'points' | 'sheetOrder';
@@ -31,7 +32,8 @@ export const PlayerTable: React.FC<PlayerTableProps> = ({
   selectedTeamFilter: externalSelectedTeam = null,
   onTeamFilter,
   defaultSortField = 'name',
-  defaultSortDirection = 'asc'
+  defaultSortDirection = 'asc',
+  showPoints = true
 }) => {
   const [sortField, setSortField] = useState<SortField>(defaultSortField);
   const [sortDirection, setSortDirection] = useState<SortDirection>(defaultSortDirection);
@@ -308,21 +310,23 @@ export const PlayerTable: React.FC<PlayerTableProps> = ({
                       {getSortIcon('soldPrice')}
                     </button>
                   </th>
-                  <th className="text-center p-3 md:p-4">
-                    <button 
-                      onClick={() => handleSort('points')}
-                      className="flex items-center text-white font-semibold hover:text-orange-300 transition-colors"
-                    >
-                      Points
-                      {getSortIcon('points')}
-                    </button>
-                  </th>
+                  {showPoints && (
+                    <th className="text-center p-3 md:p-4">
+                      <button 
+                        onClick={() => handleSort('points')}
+                        className="flex items-center text-white font-semibold hover:text-orange-300 transition-colors"
+                      >
+                        Points
+                        {getSortIcon('points')}
+                      </button>
+                    </th>
+                  )}
                 </tr>
               </thead>
               <tbody>
                 {sortedPlayers.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className="text-center py-8 text-gray-400">
+                    <td colSpan={showPoints ? 8 : 7} className="text-center py-8 text-gray-400">
                       No players found
                     </td>
                   </tr>
@@ -380,9 +384,11 @@ export const PlayerTable: React.FC<PlayerTableProps> = ({
                           <span className="text-red-400 font-medium">UNSOLD</span>
                         )}
                       </td>
-                      <td className="p-3 md:p-4 text-center text-gray-300 text-sm font-medium">
-                        {player.points || '-'}
-                      </td>
+                      {showPoints && (
+                        <td className="p-3 md:p-4 text-center text-gray-300 text-sm font-medium">
+                          {player.points || '-'}
+                        </td>
+                      )}
                     </tr>
                   ))
                 )}

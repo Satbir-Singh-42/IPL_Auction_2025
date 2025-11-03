@@ -176,6 +176,7 @@ export const PlayerDetailsSection = (): JSX.Element => {
             showTeamFilter={false}
             defaultSortField="sheetOrder"
             defaultSortDirection="asc"
+            showPoints={false}
           />
         );
 
