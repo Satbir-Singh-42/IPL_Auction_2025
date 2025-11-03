@@ -122,7 +122,7 @@ export default function AuctionPage() {
     setCurrentPlayer(player);
     setViewerOpen(true);
     setShowUnsoldStamp(false);
-    setCurrentBid(Number(player.basePrice) || 0);
+    setCurrentBid(0);
     document.body.style.overflow = "hidden";
   };
 
@@ -185,11 +185,11 @@ export default function AuctionPage() {
         if (currentIndex < newActive.length) {
           const nextPlayer = newActive[currentIndex];
           setCurrentPlayer(nextPlayer);
-          setCurrentBid(Number(nextPlayer.basePrice) || 0);
+          setCurrentBid(0);
         } else if (newActive.length > 0) {
           const nextPlayer = newActive[0];
           setCurrentPlayer(nextPlayer);
-          setCurrentBid(Number(nextPlayer.basePrice) || 0);
+          setCurrentBid(0);
         } else {
           closeViewer();
         }
@@ -236,11 +236,11 @@ export default function AuctionPage() {
           const nextPlayer = newActive.slice(currentIndex + 1).find(p => !p.isUnsold) || 
                              nonUnsoldPlayers[0];
           setCurrentPlayer(nextPlayer);
-          setCurrentBid(Number(nextPlayer.basePrice) || 0);
+          setCurrentBid(0);
         } else if (nonUnsoldPlayers.length > 0) {
           const nextPlayer = nonUnsoldPlayers[0];
           setCurrentPlayer(nextPlayer);
-          setCurrentBid(Number(nextPlayer.basePrice) || 0);
+          setCurrentBid(0);
         } else {
           closeViewer();
         }
@@ -300,7 +300,7 @@ export default function AuctionPage() {
         setUnsoldCount(prev => prev + 1);
       }
       setCurrentPlayer(lastAction.player);
-      setCurrentBid(Number(lastAction.player.basePrice) || 0);
+      setCurrentBid(0);
       setViewerOpen(true);
     } else if (lastAction.type === 'unsold') {
       // Remove player from unsold Set
@@ -314,7 +314,7 @@ export default function AuctionPage() {
       setActiveCards(newActive);
       setUnsoldCount(lastAction.previousUnsoldCount);
       setCurrentPlayer(lastAction.player);
-      setCurrentBid(Number(lastAction.player.basePrice) || 0);
+      setCurrentBid(0);
       setViewerOpen(true);
     }
     setLastAction(null);
@@ -337,7 +337,7 @@ export default function AuctionPage() {
                             nonUnsoldPlayers[0];
           if (nextPlayer) {
             setCurrentPlayer(nextPlayer);
-            setCurrentBid(Number(nextPlayer.basePrice) || 0);
+            setCurrentBid(0);
             setShowUnsoldStamp(false);
           }
           return;
@@ -346,7 +346,7 @@ export default function AuctionPage() {
                             nonUnsoldPlayers[nonUnsoldPlayers.length - 1];
           if (prevPlayer) {
             setCurrentPlayer(prevPlayer);
-            setCurrentBid(Number(prevPlayer.basePrice) || 0);
+            setCurrentBid(0);
             setShowUnsoldStamp(false);
           }
           return;
@@ -366,7 +366,7 @@ export default function AuctionPage() {
     if (!nextPlayer) return;
     
     setCurrentPlayer(nextPlayer);
-    setCurrentBid(Number(nextPlayer.basePrice) || 0);
+    setCurrentBid(0);
     setShowUnsoldStamp(false);
   };
 
@@ -521,7 +521,7 @@ export default function AuctionPage() {
         
         if (e.key.length === 1 || ['enter', 'space'].includes(key)) {
           e.preventDefault();
-          setCurrentBid(prev => prev + AUCTION_CONFIG.bidIncrement);
+          setCurrentBid(prev => prev === 0 ? (Number(currentPlayer.basePrice) || 0) : prev + AUCTION_CONFIG.bidIncrement);
         }
       } else if (viewerOpen && key === 'escape') {
         e.preventDefault();
@@ -983,7 +983,7 @@ export default function AuctionPage() {
 
                   {!soldCards.some(p => p.name === currentPlayer.name) && (
                     <motion.div 
-                      onClick={isMobile ? () => setCurrentBid(prev => prev + AUCTION_CONFIG.bidIncrement) : undefined}
+                      onClick={isMobile ? () => setCurrentBid(prev => prev === 0 ? (Number(currentPlayer.basePrice) || 0) : prev + AUCTION_CONFIG.bidIncrement) : undefined}
                       className={`backdrop-blur-xl bg-blue-600/10 rounded-lg p-3 md:p-4 border-2 border-blue-400/30 select-none transition-transform ${isMobile ? 'cursor-pointer active:scale-95' : ''}`}
                       data-testid="bid-increment-area"
                       whileHover={isMobile ? { 
@@ -1003,7 +1003,7 @@ export default function AuctionPage() {
                         className="text-white text-2xl md:text-3xl font-bold" 
                         data-testid="viewer-current-bid"
                       >
-                        {currentBid > (currentPlayer.basePrice || 0) 
+                        {currentBid > 0 
                           ? `₹${formatIndianNumber(currentBid)}`
                           : 'Bid to Start'
                         }
