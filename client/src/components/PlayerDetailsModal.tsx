@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Player, googleSheetsService } from '@/services/googleSheetsService';
 import { formatIndianNumber } from '@/lib/utils';
-import { Globe } from 'lucide-react';
 
 interface PlayerDetailsModalProps {
   player: Player | null;
@@ -49,17 +48,9 @@ export const PlayerDetailsModal: React.FC<PlayerDetailsModalProps> = ({
             </h2>
             
             {/* Country and Role */}
-            <div className="flex items-center justify-center gap-2 mt-1 flex-wrap" data-testid="text-player-info">
-              <p className="text-sm sm:text-base md:text-base text-white/60">
-                {player.nation} - {player.role}
-              </p>
-              {player.overseas && (
-                <div className="bg-blue-500/90 backdrop-blur-sm text-white px-2 py-1 rounded text-xs font-semibold flex items-center gap-1">
-                  <Globe className="w-3 h-3" />
-                  OVERSEAS
-                </div>
-              )}
-            </div>
+            <p className="text-sm sm:text-base md:text-base text-white/60 mt-1" data-testid="text-player-info">
+              {player.nation} • {player.role}{player.overseas ? ' • OVERSEAS' : ''}
+            </p>
           </motion.div>
 
           {/* Player Image */}

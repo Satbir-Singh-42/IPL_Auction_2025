@@ -947,13 +947,15 @@ export default function AuctionPage() {
                     <h2 className="text-xl md:text-3xl font-bold text-white mb-1 md:mb-2 drop-shadow-lg" data-testid="viewer-name">
                       {currentPlayer.name}
                     </h2>
-                    <p className="text-sm md:text-lg text-white/90">{currentPlayer.nation} - {currentPlayer.role}</p>
-                    {currentPlayer.overseas && (
-                      <div className="inline-flex items-center gap-2 bg-blue-500/80 backdrop-blur-sm text-white px-3 py-1 rounded-lg text-sm font-semibold mt-2">
-                        <Globe className="w-4 h-4" />
-                        OVERSEAS
-                      </div>
-                    )}
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <p className="text-sm md:text-lg text-white/90">{currentPlayer.nation} - {currentPlayer.role}</p>
+                      {currentPlayer.overseas && (
+                        <div className="inline-flex items-center gap-1 bg-blue-500/80 backdrop-blur-sm text-white px-2 py-0.5 rounded text-xs font-semibold">
+                          <Globe className="w-3 h-3" />
+                          OVERSEAS
+                        </div>
+                      )}
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-2">
