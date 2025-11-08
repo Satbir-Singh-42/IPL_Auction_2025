@@ -947,7 +947,7 @@ export default function AuctionPage() {
                     <h2 className="text-xl md:text-3xl font-bold text-white mb-1 md:mb-2 drop-shadow-lg" data-testid="viewer-name">
                       {currentPlayer.name}
                     </h2>
-                    <div className="flex items-center gap-2 flex-wrap">
+                    <div className="flex items-center justify-between gap-2 flex-wrap">
                       <p className="text-sm md:text-lg text-white/90">{currentPlayer.nation} - {currentPlayer.role}</p>
                       {currentPlayer.overseas && (
                         <div className="inline-flex items-center gap-1 bg-blue-500/80 backdrop-blur-sm text-white px-2 py-0.5 rounded text-xs font-semibold">
