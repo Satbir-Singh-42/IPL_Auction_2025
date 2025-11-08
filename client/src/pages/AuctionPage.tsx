@@ -641,7 +641,7 @@ export default function AuctionPage() {
         {player.overseas && !player.isUnsold && (
           <div className="absolute top-1 right-1 bg-blue-500/90 backdrop-blur-sm text-white px-1.5 py-0.5 rounded text-xs font-semibold flex items-center gap-0.5">
             <Globe className="w-2.5 h-2.5" />
-            OVERSEAS
+            <span className="hidden sm:inline">OVERSEAS</span>
           </div>
         )}
       </div>
