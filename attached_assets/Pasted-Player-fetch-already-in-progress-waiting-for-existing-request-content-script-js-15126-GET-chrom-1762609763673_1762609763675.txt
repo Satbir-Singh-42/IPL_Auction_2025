@@ -1,0 +1,468 @@
+Player fetch already in progress, waiting for existing request...
+content_script.js:15126  GET chrome-extension://invalid/ net::ERR_FAILED
+injectScript @ content_script.js:15126
+inject_script @ content_script.js:15171
+inject_script @ content_script.js:15133
+checkServices @ content_script.js:15202
+onContentLoaded @ content_script.js:15362
+(anonymous) @ content_script.js:15368Understand this error
+index-DWvvFkuv.js:210 Successfully parsed 12 rows from Teams & Budget
+index-DWvvFkuv.js:210 Player fetch already in progress, waiting for existing request...
+index-DWvvFkuv.js:210  GET https://doc-10-ag-sheets.googleusercontent.com/export/54bogvaave6cua4cdnls17ksc4/1e15n7i1u7j43gbft5nbuldrnk/1762609740000/114865269443937670309/*/1fyX373d3bUhnBGoZuM_eQxy991hSajyZjIuVgByg-7g?format=csv&gid=0 400 (Bad Request)
+fetchCSVData @ index-DWvvFkuv.js:210
+fetchPlayersData @ index-DWvvFkuv.js:210
+getPlayers @ index-DWvvFkuv.js:210
+queryFn @ index-DWvvFkuv.js:210
+i @ index-DWvvFkuv.js:48
+S @ index-DWvvFkuv.js:48
+start @ index-DWvvFkuv.js:48
+fetch @ index-DWvvFkuv.js:48
+Xi @ index-DWvvFkuv.js:48
+onSubscribe @ index-DWvvFkuv.js:48
+subscribe @ index-DWvvFkuv.js:48
+(anonymous) @ index-DWvvFkuv.js:48
+pv @ index-DWvvFkuv.js:38
+Xl @ index-DWvvFkuv.js:40
+Qs @ index-DWvvFkuv.js:40
+vp @ index-DWvvFkuv.js:40
+Fr @ index-DWvvFkuv.js:38
+wP @ index-DWvvFkuv.js:40
+Ur @ index-DWvvFkuv.js:40
+Gv @ index-DWvvFkuv.js:40
+E @ index-DWvvFkuv.js:25
+L @ index-DWvvFkuv.js:25Understand this error
+index-DWvvFkuv.js:208 Duplicate headers found and renamed.
+X @ index-DWvvFkuv.js:208
+$ @ index-DWvvFkuv.js:208
+parse @ index-DWvvFkuv.js:208
+parse @ index-DWvvFkuv.js:201
+parseChunk @ index-DWvvFkuv.js:201
+_nextChunk @ index-DWvvFkuv.js:201
+stream @ index-DWvvFkuv.js:201
+c.parse @ index-DWvvFkuv.js:208
+(anonymous) @ index-DWvvFkuv.js:210
+fetchCSVData @ index-DWvvFkuv.js:210
+await in fetchCSVData
+fetchPlayersData @ index-DWvvFkuv.js:210
+getPlayers @ index-DWvvFkuv.js:210
+queryFn @ index-DWvvFkuv.js:210
+i @ index-DWvvFkuv.js:48
+S @ index-DWvvFkuv.js:48
+start @ index-DWvvFkuv.js:48
+fetch @ index-DWvvFkuv.js:48
+Xi @ index-DWvvFkuv.js:48
+onSubscribe @ index-DWvvFkuv.js:48
+subscribe @ index-DWvvFkuv.js:48
+(anonymous) @ index-DWvvFkuv.js:48
+pv @ index-DWvvFkuv.js:38
+Xl @ index-DWvvFkuv.js:40
+Qs @ index-DWvvFkuv.js:40
+vp @ index-DWvvFkuv.js:40
+Fr @ index-DWvvFkuv.js:38
+wP @ index-DWvvFkuv.js:40
+Ur @ index-DWvvFkuv.js:40
+Gv @ index-DWvvFkuv.js:40
+E @ index-DWvvFkuv.js:25
+L @ index-DWvvFkuv.js:25Understand this warning
+index-DWvvFkuv.js:210 Successfully parsed 166 rows from Players Catalogue
+index-DWvvFkuv.js:210 Fetching auction data directly from Auctioneer Sheet...
+index-DWvvFkuv.js:210 Fetching Auctioneer Sheet data by sheet name: Auctioneer Sheet
+index-DWvvFkuv.js:210 Successfully parsed 166 rows from Auctioneer Sheet
+index-DWvvFkuv.js:210 Processing real auction data from Google Sheet
+index-DWvvFkuv.js:210 Cached 166 players (166 auction results merged from live sheet)
+index-DWvvFkuv.js:210 Loaded 12 teams from Teams & Budget sheet
+index-DWvvFkuv.js:210 Cached 12 teams
+content_script.js:15126  GET chrome-extension://invalid/ net::ERR_FAILED
+injectScript @ content_script.js:15126
+inject_script @ content_script.js:15171
+inject_script @ content_script.js:15133
+(anonymous) @ content_script.js:15205
+setTimeout
+checkServices @ content_script.js:15203
+onContentLoaded @ content_script.js:15362
+(anonymous) @ content_script.js:15368Understand this error
+42(index):1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was receivedUnderstand this error
+index-DWvvFkuv.js:210 Fetching fresh player data from both Players Catalogue and Auctioneer Sheet...
+index-DWvvFkuv.js:210 Fetching Players Catalogue data from GID: 0
+index-DWvvFkuv.js:210 Player fetch already in progress, waiting for existing request...
+index-DWvvFkuv.js:210 Fetching team data directly from Teams & Budget sheet...
+index-DWvvFkuv.js:210 Fetching Teams & Budget data by sheet name: Teams & Budget
+index-DWvvFkuv.js:210 Team fetch already in progress, waiting for existing request...
+52(index):1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was receivedUnderstand this error
+(index):1 The resource https://ipl-auction-2025.vercel.app/images/auction/background.png was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.Understand this warning
+index-DWvvFkuv.js:210 Successfully parsed 12 rows from Teams & Budget
+index-DWvvFkuv.js:210 Player fetch already in progress, waiting for existing request...
+2content_script.js:5539 Uncaught (in promise) TypeError: codes.forEach is not a function
+    at LanguageUtil.getBestMatchFromCodes (content_script.js:5539:11)
+    at setLng (content_script.js:6761:79)
+    at I18n.changeLanguage (content_script.js:6782:7)
+    at content_script.js:3362:16
+getBestMatchFromCodes @ content_script.js:5539
+setLng @ content_script.js:6761
+changeLanguage @ content_script.js:6782
+(anonymous) @ content_script.js:3362
+await in (anonymous)
+(anonymous) @ content_script.js:2287
+dispatch @ content_script.js:2255
+get_sync_action @ content_script.js:3236
+await in get_sync_action
+(anonymous) @ content_script.js:2287
+(anonymous) @ content_script.js:3377
+(anonymous) @ content_script.js:2666
+globalStorageListener @ content_script.js:2666
+v3MessagesDispatcher @ content_script.js:2406Understand this error
+index-DWvvFkuv.js:210  GET https://doc-10-ag-sheets.googleusercontent.com/export/54bogvaave6cua4cdnls17ksc4/oh79nuqumhv1c2qcj89cb1onuk/1762609745000/114865269443937670309/*/1fyX373d3bUhnBGoZuM_eQxy991hSajyZjIuVgByg-7g?format=csv&gid=0 400 (Bad Request)
+fetchCSVData @ index-DWvvFkuv.js:210
+fetchPlayersData @ index-DWvvFkuv.js:210
+getPlayers @ index-DWvvFkuv.js:210
+queryFn @ index-DWvvFkuv.js:210
+i @ index-DWvvFkuv.js:48
+S @ index-DWvvFkuv.js:48
+start @ index-DWvvFkuv.js:48
+fetch @ index-DWvvFkuv.js:48
+Xi @ index-DWvvFkuv.js:48
+(anonymous) @ index-DWvvFkuv.js:48
+setInterval
+Pd @ index-DWvvFkuv.js:48
+kd @ index-DWvvFkuv.js:48
+onQueryUpdate @ index-DWvvFkuv.js:48
+(anonymous) @ index-DWvvFkuv.js:48
+(anonymous) @ index-DWvvFkuv.js:48
+batch @ index-DWvvFkuv.js:48
+Dn @ index-DWvvFkuv.js:48
+setData @ index-DWvvFkuv.js:48
+onSuccess @ index-DWvvFkuv.js:48
+f @ index-DWvvFkuv.js:48
+Promise.then
+S @ index-DWvvFkuv.js:48
+start @ index-DWvvFkuv.js:48
+fetch @ index-DWvvFkuv.js:48
+Xi @ index-DWvvFkuv.js:48
+onSubscribe @ index-DWvvFkuv.js:48
+subscribe @ index-DWvvFkuv.js:48
+(anonymous) @ index-DWvvFkuv.js:48
+pv @ index-DWvvFkuv.js:38
+Xl @ index-DWvvFkuv.js:40
+Qs @ index-DWvvFkuv.js:40
+vp @ index-DWvvFkuv.js:40
+Fr @ index-DWvvFkuv.js:38
+wP @ index-DWvvFkuv.js:40
+Ur @ index-DWvvFkuv.js:40
+Gv @ index-DWvvFkuv.js:40
+E @ index-DWvvFkuv.js:25
+L @ index-DWvvFkuv.js:25Understand this error
+index-DWvvFkuv.js:208 Duplicate headers found and renamed.
+X @ index-DWvvFkuv.js:208
+$ @ index-DWvvFkuv.js:208
+parse @ index-DWvvFkuv.js:208
+parse @ index-DWvvFkuv.js:201
+parseChunk @ index-DWvvFkuv.js:201
+_nextChunk @ index-DWvvFkuv.js:201
+stream @ index-DWvvFkuv.js:201
+c.parse @ index-DWvvFkuv.js:208
+(anonymous) @ index-DWvvFkuv.js:210
+fetchCSVData @ index-DWvvFkuv.js:210
+await in fetchCSVData
+fetchPlayersData @ index-DWvvFkuv.js:210
+getPlayers @ index-DWvvFkuv.js:210
+queryFn @ index-DWvvFkuv.js:210
+i @ index-DWvvFkuv.js:48
+S @ index-DWvvFkuv.js:48
+start @ index-DWvvFkuv.js:48
+fetch @ index-DWvvFkuv.js:48
+Xi @ index-DWvvFkuv.js:48
+(anonymous) @ index-DWvvFkuv.js:48
+setInterval
+Pd @ index-DWvvFkuv.js:48
+kd @ index-DWvvFkuv.js:48
+onQueryUpdate @ index-DWvvFkuv.js:48
+(anonymous) @ index-DWvvFkuv.js:48
+(anonymous) @ index-DWvvFkuv.js:48
+batch @ index-DWvvFkuv.js:48
+Dn @ index-DWvvFkuv.js:48
+setData @ index-DWvvFkuv.js:48
+onSuccess @ index-DWvvFkuv.js:48
+f @ index-DWvvFkuv.js:48
+Promise.then
+S @ index-DWvvFkuv.js:48
+start @ index-DWvvFkuv.js:48
+fetch @ index-DWvvFkuv.js:48
+Xi @ index-DWvvFkuv.js:48
+onSubscribe @ index-DWvvFkuv.js:48
+subscribe @ index-DWvvFkuv.js:48
+(anonymous) @ index-DWvvFkuv.js:48
+pv @ index-DWvvFkuv.js:38
+Xl @ index-DWvvFkuv.js:40
+Qs @ index-DWvvFkuv.js:40
+vp @ index-DWvvFkuv.js:40
+Fr @ index-DWvvFkuv.js:38
+wP @ index-DWvvFkuv.js:40
+Ur @ index-DWvvFkuv.js:40
+Gv @ index-DWvvFkuv.js:40
+E @ index-DWvvFkuv.js:25
+L @ index-DWvvFkuv.js:25Understand this warning
+index-DWvvFkuv.js:210 Successfully parsed 166 rows from Players Catalogue
+index-DWvvFkuv.js:210 Fetching auction data directly from Auctioneer Sheet...
+index-DWvvFkuv.js:210 Fetching Auctioneer Sheet data by sheet name: Auctioneer Sheet
+index-DWvvFkuv.js:210 Successfully parsed 166 rows from Auctioneer Sheet
+index-DWvvFkuv.js:210 Processing real auction data from Google Sheet
+index-DWvvFkuv.js:210 Cached 166 players (166 auction results merged from live sheet)
+index-DWvvFkuv.js:210 Loaded 12 teams from Teams & Budget sheet
+index-DWvvFkuv.js:210 Cached 12 teams
+content_script.js:5539 Uncaught (in promise) TypeError: codes.forEach is not a function
+    at LanguageUtil.getBestMatchFromCodes (content_script.js:5539:11)
+    at setLng (content_script.js:6761:79)
+    at I18n.changeLanguage (content_script.js:6782:7)
+    at content_script.js:3362:16
+getBestMatchFromCodes @ content_script.js:5539
+setLng @ content_script.js:6761
+changeLanguage @ content_script.js:6782
+(anonymous) @ content_script.js:3362
+await in (anonymous)
+(anonymous) @ content_script.js:2287
+dispatch @ content_script.js:2255
+get_sync_action @ content_script.js:3236
+await in get_sync_action
+(anonymous) @ content_script.js:2287
+(anonymous) @ content_script.js:3377
+(anonymous) @ content_script.js:2666
+globalStorageListener @ content_script.js:2666
+v3MessagesDispatcher @ content_script.js:2406Understand this error
+(index):1 The resource https://ipl-auction-2025.vercel.app/images/auction/background.png was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.Understand this warning
+4content_script.js:5539 Uncaught (in promise) TypeError: codes.forEach is not a function
+    at LanguageUtil.getBestMatchFromCodes (content_script.js:5539:11)
+    at setLng (content_script.js:6761:79)
+    at I18n.changeLanguage (content_script.js:6782:7)
+    at content_script.js:3362:16
+getBestMatchFromCodes @ content_script.js:5539
+setLng @ content_script.js:6761
+changeLanguage @ content_script.js:6782
+(anonymous) @ content_script.js:3362
+await in (anonymous)
+(anonymous) @ content_script.js:2287
+dispatch @ content_script.js:2255
+get_sync_action @ content_script.js:3236
+await in get_sync_action
+(anonymous) @ content_script.js:2287
+(anonymous) @ content_script.js:3377
+(anonymous) @ content_script.js:2666
+globalStorageListener @ content_script.js:2666
+v3MessagesDispatcher @ content_script.js:2406Understand this error
+16(index):1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was receivedUnderstand this error
+index-DWvvFkuv.js:210 Fetching fresh player data from both Players Catalogue and Auctioneer Sheet...
+index-DWvvFkuv.js:210 Fetching Players Catalogue data from GID: 0
+index-DWvvFkuv.js:210 Player fetch already in progress, waiting for existing request...
+index-DWvvFkuv.js:210 Fetching team data directly from Teams & Budget sheet...
+index-DWvvFkuv.js:210 Fetching Teams & Budget data by sheet name: Teams & Budget
+index-DWvvFkuv.js:210 Team fetch already in progress, waiting for existing request...
+102(index):1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was receivedUnderstand this error
+content_script.js:5539 Uncaught (in promise) TypeError: codes.forEach is not a function
+    at LanguageUtil.getBestMatchFromCodes (content_script.js:5539:11)
+    at setLng (content_script.js:6761:79)
+    at I18n.changeLanguage (content_script.js:6782:7)
+    at content_script.js:3362:16
+getBestMatchFromCodes @ content_script.js:5539
+setLng @ content_script.js:6761
+changeLanguage @ content_script.js:6782
+(anonymous) @ content_script.js:3362
+await in (anonymous)
+(anonymous) @ content_script.js:2287
+dispatch @ content_script.js:2255
+get_sync_action @ content_script.js:3236
+await in get_sync_action
+(anonymous) @ content_script.js:2287
+(anonymous) @ content_script.js:3377
+(anonymous) @ content_script.js:2666
+globalStorageListener @ content_script.js:2666
+v3MessagesDispatcher @ content_script.js:2406Understand this error
+index-DWvvFkuv.js:210 Successfully parsed 12 rows from Teams & Budget
+index-DWvvFkuv.js:210 Player fetch already in progress, waiting for existing request...
+content_script.js:5539 Uncaught (in promise) TypeError: codes.forEach is not a function
+    at LanguageUtil.getBestMatchFromCodes (content_script.js:5539:11)
+    at setLng (content_script.js:6761:79)
+    at I18n.changeLanguage (content_script.js:6782:7)
+    at content_script.js:3362:16
+getBestMatchFromCodes @ content_script.js:5539
+setLng @ content_script.js:6761
+changeLanguage @ content_script.js:6782
+(anonymous) @ content_script.js:3362
+await in (anonymous)
+(anonymous) @ content_script.js:2287
+dispatch @ content_script.js:2255
+get_sync_action @ content_script.js:3236
+await in get_sync_action
+(anonymous) @ content_script.js:2287
+(anonymous) @ content_script.js:3377
+(anonymous) @ content_script.js:2666
+globalStorageListener @ content_script.js:2666
+v3MessagesDispatcher @ content_script.js:2406Understand this error
+index-DWvvFkuv.js:210  GET https://doc-10-ag-sheets.googleusercontent.com/export/54bogvaave6cua4cdnls17ksc4/a56d83k7gn0dfj08nbu5cjmm0k/1762609755000/114865269443937670309/*/1fyX373d3bUhnBGoZuM_eQxy991hSajyZjIuVgByg-7g?format=csv&gid=0 400 (Bad Request)
+fetchCSVData @ index-DWvvFkuv.js:210
+fetchPlayersData @ index-DWvvFkuv.js:210
+getPlayers @ index-DWvvFkuv.js:210
+queryFn @ index-DWvvFkuv.js:210
+i @ index-DWvvFkuv.js:48
+S @ index-DWvvFkuv.js:48
+start @ index-DWvvFkuv.js:48
+fetch @ index-DWvvFkuv.js:48
+Xi @ index-DWvvFkuv.js:48
+(anonymous) @ index-DWvvFkuv.js:48
+setInterval
+Pd @ index-DWvvFkuv.js:48
+kd @ index-DWvvFkuv.js:48
+onQueryUpdate @ index-DWvvFkuv.js:48
+(anonymous) @ index-DWvvFkuv.js:48
+(anonymous) @ index-DWvvFkuv.js:48
+batch @ index-DWvvFkuv.js:48
+Dn @ index-DWvvFkuv.js:48
+setData @ index-DWvvFkuv.js:48
+onSuccess @ index-DWvvFkuv.js:48
+f @ index-DWvvFkuv.js:48
+Promise.then
+S @ index-DWvvFkuv.js:48
+start @ index-DWvvFkuv.js:48
+fetch @ index-DWvvFkuv.js:48
+Xi @ index-DWvvFkuv.js:48
+(anonymous) @ index-DWvvFkuv.js:48
+setInterval
+Pd @ index-DWvvFkuv.js:48
+kd @ index-DWvvFkuv.js:48
+onQueryUpdate @ index-DWvvFkuv.js:48
+(anonymous) @ index-DWvvFkuv.js:48
+(anonymous) @ index-DWvvFkuv.js:48
+batch @ index-DWvvFkuv.js:48
+Dn @ index-DWvvFkuv.js:48
+setData @ index-DWvvFkuv.js:48
+onSuccess @ index-DWvvFkuv.js:48
+f @ index-DWvvFkuv.js:48
+Promise.then
+S @ index-DWvvFkuv.js:48
+start @ index-DWvvFkuv.js:48
+fetch @ index-DWvvFkuv.js:48
+Xi @ index-DWvvFkuv.js:48
+onSubscribe @ index-DWvvFkuv.js:48
+subscribe @ index-DWvvFkuv.js:48
+(anonymous) @ index-DWvvFkuv.js:48
+pv @ index-DWvvFkuv.js:38
+Xl @ index-DWvvFkuv.js:40
+Qs @ index-DWvvFkuv.js:40
+vp @ index-DWvvFkuv.js:40
+Fr @ index-DWvvFkuv.js:38
+wP @ index-DWvvFkuv.js:40
+Ur @ index-DWvvFkuv.js:40
+Gv @ index-DWvvFkuv.js:40
+E @ index-DWvvFkuv.js:25
+L @ index-DWvvFkuv.js:25Understand this error
+content_script.js:5539 Uncaught (in promise) TypeError: codes.forEach is not a function
+    at LanguageUtil.getBestMatchFromCodes (content_script.js:5539:11)
+    at setLng (content_script.js:6761:79)
+    at I18n.changeLanguage (content_script.js:6782:7)
+    at content_script.js:3362:16
+getBestMatchFromCodes @ content_script.js:5539
+setLng @ content_script.js:6761
+changeLanguage @ content_script.js:6782
+(anonymous) @ content_script.js:3362
+await in (anonymous)
+(anonymous) @ content_script.js:2287
+dispatch @ content_script.js:2255
+get_sync_action @ content_script.js:3236
+await in get_sync_action
+(anonymous) @ content_script.js:2287
+(anonymous) @ content_script.js:3377
+(anonymous) @ content_script.js:2666
+globalStorageListener @ content_script.js:2666
+v3MessagesDispatcher @ content_script.js:2406Understand this error
+index-DWvvFkuv.js:208 Duplicate headers found and renamed.
+X @ index-DWvvFkuv.js:208
+$ @ index-DWvvFkuv.js:208
+parse @ index-DWvvFkuv.js:208
+parse @ index-DWvvFkuv.js:201
+parseChunk @ index-DWvvFkuv.js:201
+_nextChunk @ index-DWvvFkuv.js:201
+stream @ index-DWvvFkuv.js:201
+c.parse @ index-DWvvFkuv.js:208
+(anonymous) @ index-DWvvFkuv.js:210
+fetchCSVData @ index-DWvvFkuv.js:210
+await in fetchCSVData
+fetchPlayersData @ index-DWvvFkuv.js:210
+getPlayers @ index-DWvvFkuv.js:210
+queryFn @ index-DWvvFkuv.js:210
+i @ index-DWvvFkuv.js:48
+S @ index-DWvvFkuv.js:48
+start @ index-DWvvFkuv.js:48
+fetch @ index-DWvvFkuv.js:48
+Xi @ index-DWvvFkuv.js:48
+(anonymous) @ index-DWvvFkuv.js:48
+setInterval
+Pd @ index-DWvvFkuv.js:48
+kd @ index-DWvvFkuv.js:48
+onQueryUpdate @ index-DWvvFkuv.js:48
+(anonymous) @ index-DWvvFkuv.js:48
+(anonymous) @ index-DWvvFkuv.js:48
+batch @ index-DWvvFkuv.js:48
+Dn @ index-DWvvFkuv.js:48
+setData @ index-DWvvFkuv.js:48
+onSuccess @ index-DWvvFkuv.js:48
+f @ index-DWvvFkuv.js:48
+Promise.then
+S @ index-DWvvFkuv.js:48
+start @ index-DWvvFkuv.js:48
+fetch @ index-DWvvFkuv.js:48
+Xi @ index-DWvvFkuv.js:48
+(anonymous) @ index-DWvvFkuv.js:48
+setInterval
+Pd @ index-DWvvFkuv.js:48
+kd @ index-DWvvFkuv.js:48
+onQueryUpdate @ index-DWvvFkuv.js:48
+(anonymous) @ index-DWvvFkuv.js:48
+(anonymous) @ index-DWvvFkuv.js:48
+batch @ index-DWvvFkuv.js:48
+Dn @ index-DWvvFkuv.js:48
+setData @ index-DWvvFkuv.js:48
+onSuccess @ index-DWvvFkuv.js:48
+f @ index-DWvvFkuv.js:48
+Promise.then
+S @ index-DWvvFkuv.js:48
+start @ index-DWvvFkuv.js:48
+fetch @ index-DWvvFkuv.js:48
+Xi @ index-DWvvFkuv.js:48
+onSubscribe @ index-DWvvFkuv.js:48
+subscribe @ index-DWvvFkuv.js:48
+(anonymous) @ index-DWvvFkuv.js:48
+pv @ index-DWvvFkuv.js:38
+Xl @ index-DWvvFkuv.js:40
+Qs @ index-DWvvFkuv.js:40
+vp @ index-DWvvFkuv.js:40
+Fr @ index-DWvvFkuv.js:38
+wP @ index-DWvvFkuv.js:40
+Ur @ index-DWvvFkuv.js:40
+Gv @ index-DWvvFkuv.js:40
+E @ index-DWvvFkuv.js:25
+L @ index-DWvvFkuv.js:25Understand this warning
+index-DWvvFkuv.js:210 Successfully parsed 166 rows from Players Catalogue
+index-DWvvFkuv.js:210 Fetching auction data directly from Auctioneer Sheet...
+index-DWvvFkuv.js:210 Fetching Auctioneer Sheet data by sheet name: Auctioneer Sheet
+content_script.js:5539 Uncaught (in promise) TypeError: codes.forEach is not a function
+    at LanguageUtil.getBestMatchFromCodes (content_script.js:5539:11)
+    at setLng (content_script.js:6761:79)
+    at I18n.changeLanguage (content_script.js:6782:7)
+    at content_script.js:3362:16
+getBestMatchFromCodes @ content_script.js:5539
+setLng @ content_script.js:6761
+changeLanguage @ content_script.js:6782
+(anonymous) @ content_script.js:3362
+await in (anonymous)
+(anonymous) @ content_script.js:2287
+dispatch @ content_script.js:2255
+get_sync_action @ content_script.js:3236
+await in get_sync_action
+(anonymous) @ content_script.js:2287
+(anonymous) @ content_script.js:3377
+(anonymous) @ content_script.js:2666
+globalStorageListener @ content_script.js:2666
+v3MessagesDispatcher @ content_script.js:2406Understand this error
+index-DWvvFkuv.js:210 Successfully parsed 166 rows from Auctioneer Sheet
+index-DWvvFkuv.js:210 Processing real auction data from Google Sheet
+index-DWvvFkuv.js:210 Cached 166 players (166 auction results merged from live sheet)
+index-DWvvFkuv.js:210 Loaded 12 teams from Teams & Budget sheet
+in
