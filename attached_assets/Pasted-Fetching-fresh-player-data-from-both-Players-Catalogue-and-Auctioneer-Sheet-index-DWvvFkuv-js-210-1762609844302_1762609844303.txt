@@ -1,0 +1,30 @@
+Fetching fresh player data from both Players Catalogue and Auctioneer Sheet...
+index-DWvvFkuv.js:210 Fetching Players Catalogue data from GID: 0
+index-DWvvFkuv.js:210 Player fetch already in progress, waiting for existing request...
+index-DWvvFkuv.js:210 Fetching team data directly from Teams & Budget sheet...
+index-DWvvFkuv.js:210 Fetching Teams & Budget data by sheet name: Teams & Budget
+index-DWvvFkuv.js:210 Team fetch already in progress, waiting for existing request...
+52(index):1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was receivedUnderstand this error
+11The resource <URL> was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.Understand this warning
+index-DWvvFkuv.js:210 Successfully parsed 12 rows from Teams & Budget
+index-DWvvFkuv.js:210 Player fetch already in progress, waiting for existing request...
+2content_script.js:5539 Uncaught (in promise) TypeError: codes.forEach is not a function
+    at LanguageUtil.getBestMatchFromCodes (content_script.js:5539:11)
+    at setLng (content_script.js:6761:79)
+    at I18n.changeLanguage (content_script.js:6782:7)
+    at content_script.js:3362:16
+getBestMatchFromCodes @ content_script.js:5539
+setLng @ content_script.js:6761
+changeLanguage @ content_script.js:6782
+(anonymous) @ content_script.js:3362
+await in (anonymous)
+(anonymous) @ content_script.js:2287
+dispatch @ content_script.js:2255
+get_sync_action @ content_script.js:3236
+await in get_sync_action
+(anonymous) @ content_script.js:2287
+(anonymous) @ content_script.js:3377
+(anonymous) @ content_script.js:2666
+globalStorageListener @ content_script.js:2666
+v3MessagesDispatcher @ content_script.js:2406Understand this error
+index-DWvvFkuv.js:210  GET https://doc-10-ag-sheets.googleusercontent.com/export/54bogvaave6cua4cdnls17ksc4/oh79nuqumhv1c2qcj89cb1onuk/1762609745000/114865269443937670309/*/1fyX373d3bUhnBGoZuM_eQxy991hSajyZjIuVgByg-7g?format=csv&gid=0 400 (Bad Request)
