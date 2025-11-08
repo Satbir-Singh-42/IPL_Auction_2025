@@ -49,7 +49,7 @@ export const PlayerDetailsModal: React.FC<PlayerDetailsModalProps> = ({
             
             {/* Country and Role */}
             <p className="text-sm sm:text-base md:text-base text-white/60 mt-1" data-testid="text-player-info">
-              {player.nation} • {player.role}
+              {player.nation} • {player.role}{player.overseas ? ' • OVERSEAS' : ''}
             </p>
           </motion.div>
 
