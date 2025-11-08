@@ -952,7 +952,7 @@ export default function AuctionPage() {
                       {currentPlayer.overseas && (
                         <div className="inline-flex items-center gap-1 bg-blue-500/80 backdrop-blur-sm text-white px-2 py-0.5 rounded text-xs font-semibold">
                           <Globe className="w-3 h-3" />
-                          OVERSEAS
+                          <span className="hidden md:inline">OVERSEAS</span>
                         </div>
                       )}
                     </div>
