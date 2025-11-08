@@ -294,7 +294,7 @@ export const PlayerTable: React.FC<PlayerTableProps> = ({
                       {getSortIcon('age')}
                     </button>
                   </th>
-                  <th className="text-right p-3 md:p-4">
+                  <th className="text-left p-3 md:p-4">
                     <button 
                       onClick={() => handleSort('basePrice')}
                       className="flex items-center text-white font-semibold hover:text-orange-300 transition-colors"
@@ -378,7 +378,7 @@ export const PlayerTable: React.FC<PlayerTableProps> = ({
                       <td className="p-3 md:p-4 text-center text-gray-300 text-sm font-medium">
                         {player.age || '-'}
                       </td>
-                      <td className="p-3 md:p-4 text-right text-gray-300 text-sm font-medium">
+                      <td className="p-3 md:p-4 text-left text-gray-300 text-sm font-medium">
                         {formatCurrency(player.basePrice)}
                       </td>
                       {showFinalBidPrice && (
