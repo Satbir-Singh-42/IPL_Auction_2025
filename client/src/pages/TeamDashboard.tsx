@@ -268,9 +268,9 @@ export const TeamDashboard = () => {
                     <p className="text-sm md:text-base font-medium">
                       {getConfigText.squadSize()}
                     </p>
-                    <p className="text-xs md:text-sm text-yellow-300 font-medium">
+                    {/* <p className="text-xs md:text-sm text-yellow-300 font-medium">
                       {getConfigText.qualification()}
-                    </p>
+                    </p> */}
                   </div>
                 </div>
               </div>
@@ -373,7 +373,7 @@ export const TeamDashboard = () => {
                       transition={{ duration: 0.2 }}>
                       {teamStat
                         ? `₹${formatIndianNumber(teamStat.totalSpent)}`
-                        : '₹0'}
+                        : "₹0"}
                     </motion.p>
                   </div>
                 </CardContent>
@@ -466,13 +466,21 @@ export const TeamDashboard = () => {
                         transition={{ duration: 0.3 }}>
                         Limit exceeded!
                       </motion.p>
-                    ) : currentOverseas >= MAX_OVERSEAS || currentPlayers >= MAX_PLAYERS ? (
+                    ) : currentOverseas >= MAX_OVERSEAS ||
+                      currentPlayers >= MAX_PLAYERS ? (
                       <p className={`text-xs ${DASHBOARD_COLORS.text.success}`}>
-                        {currentOverseas >= MAX_OVERSEAS ? "Foreign quota full" : "Squad full"}
+                        {currentOverseas >= MAX_OVERSEAS
+                          ? "Foreign quota full"
+                          : "Squad full"}
                       </p>
                     ) : (
                       <p className={`text-xs ${DASHBOARD_COLORS.text.info}`}>
-                        Can add {Math.min(MAX_OVERSEAS - currentOverseas, MAX_PLAYERS - currentPlayers)} more
+                        Can add{" "}
+                        {Math.min(
+                          MAX_OVERSEAS - currentOverseas,
+                          MAX_PLAYERS - currentPlayers
+                        )}{" "}
+                        more
                       </p>
                     )}
                   </div>
