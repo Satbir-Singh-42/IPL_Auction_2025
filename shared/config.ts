@@ -99,7 +99,7 @@ export const AUCTION_CONFIG = {
    * Use {max}, {count}, {min} as placeholders
    */
   squadSizeLabel: "Squad Size: Max {max} players",
-  qualificationLabel: "🏆 Qualification: Top {count} teams advance",
+  // qualificationLabel: "🏆 Qualification: Top {count} teams advance",
   minPlayersLabel: "Min: {min} players required",
 };
 
@@ -801,7 +801,7 @@ export const LEADERBOARD_CONFIG = {
  */
 export const getConfigText = {
   squadSize: () => AUCTION_CONFIG.squadSizeLabel.replace('{max}', String(AUCTION_CONFIG.maxPlayers)),
-  qualification: () => AUCTION_CONFIG.qualificationLabel.replace('{count}', String(AUCTION_CONFIG.teamsQualifying)),
+  // qualification: () => AUCTION_CONFIG.qualificationLabel.replace('{count}', String(AUCTION_CONFIG.teamsQualifying)),
   minPlayers: () => AUCTION_CONFIG.minPlayersLabel.replace('{min}', String(AUCTION_CONFIG.minPlayers)),
 };
 
