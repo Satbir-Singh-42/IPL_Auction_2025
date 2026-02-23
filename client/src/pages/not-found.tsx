@@ -23,39 +23,36 @@ export default function NotFound() {
         }`}
         style={{
           backgroundImage: `url(${backgroundImage})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed'
+          backgroundSize: "cover",
+          backgroundPosition: "center",
         }}
       />
-      
+
       {!imageLoaded && (
         <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900" />
       )}
-      
+
       <div className="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
-      
+
       <motion.div
         className="relative z-10 max-w-2xl mx-4"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-      >
+        transition={{ duration: 0.6, ease: "easeOut" }}>
         <div className="backdrop-blur-xl bg-black/60 rounded-2xl overflow-hidden shadow-2xl border border-white/30 p-8 md:p-12">
           <motion.div
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex flex-col items-center text-center"
-          >
+            className="flex flex-col items-center text-center">
             <AlertCircle className="h-24 w-24 text-red-500 mb-6" />
-            
+
             <h1 className="text-6xl font-bold text-white mb-4">404</h1>
-            
+
             <h2 className="text-2xl font-bold text-white mb-4">
               Page Not Found
             </h2>
-            
+
             <p className="text-lg text-white/80 mb-8 max-w-md">
               The page you're looking for doesn't exist!
             </p>
@@ -64,18 +61,16 @@ export default function NotFound() {
               <Link href="/">
                 <button
                   className="flex items-center justify-center gap-2 px-6 py-3 text-base font-bold border-none rounded-xl cursor-pointer transition-all duration-300 shadow-lg hover:scale-105 backdrop-blur-md bg-orange-600/90 hover:bg-orange-700/90 text-white"
-                  data-testid="link-home"
-                >
+                  data-testid="link-home">
                   <Home className="w-5 h-5" />
                   Go to Home
                 </button>
               </Link>
-              
+
               <Link href="/auction">
                 <button
                   className="flex items-center justify-center gap-2 px-6 py-3 text-base font-bold border-none rounded-xl cursor-pointer transition-all duration-300 shadow-lg hover:scale-105 backdrop-blur-md bg-green-600/90 hover:bg-green-700/90 text-white"
-                  data-testid="link-auction"
-                >
+                  data-testid="link-auction">
                   <Trophy className="w-5 h-5" />
                   View Auction
                 </button>
@@ -88,8 +83,7 @@ export default function NotFound() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-center mt-6"
-        >
+          className="text-center mt-6">
           <p className="text-white/60 text-sm">
             IPL 2025 Player Auction Dashboard
           </p>

@@ -110,7 +110,7 @@ export const PlayerTable: React.FC<PlayerTableProps> = ({
           (p.nation?.toLowerCase() || "").includes(query) ||
           (p.team?.toLowerCase() || "").includes(query) ||
           (p.age && p.age.toString().includes(query)) ||
-          (p.points && p.points.toString().includes(query))
+          (p.points && p.points.toString().includes(query)),
       );
     }
 
@@ -121,7 +121,7 @@ export const PlayerTable: React.FC<PlayerTableProps> = ({
         filtered = filtered.filter(
           (p) =>
             p.team.toLowerCase().includes(selectedTeam.name.toLowerCase()) ||
-            p.team.toLowerCase().includes(selectedTeamFilter.toLowerCase())
+            p.team.toLowerCase().includes(selectedTeamFilter.toLowerCase()),
         );
       }
     }
@@ -278,7 +278,7 @@ export const PlayerTable: React.FC<PlayerTableProps> = ({
         <CardContent className="p-0">
           <div className="overflow-x-auto">
             <div className="max-h-[70vh] overflow-y-auto">
-              <table className="w-full">
+              <table className="w-full min-w-[700px]">
                 <thead className="sticky top-0 bg-[#0a1120] border-b border-[#1a2332]">
                   <tr>
                     <th className="text-left p-3 md:p-4">
@@ -360,7 +360,7 @@ export const PlayerTable: React.FC<PlayerTableProps> = ({
                   ) : (
                     sortedPlayers.map((player, index) => (
                       <tr
-                        key={index}
+                        key={player.name + "-" + player.originalIndex}
                         className={`border-b border-[#1a2332] ${
                           index % 2 === 0 ? "bg-[#0f1629]" : "bg-[#1a2332]"
                         }`}>
@@ -396,18 +396,18 @@ export const PlayerTable: React.FC<PlayerTableProps> = ({
                             {player.role === "Wicket Keeper"
                               ? "WK"
                               : player.role === "All Rounder"
-                              ? "AR"
-                              : player.role === "Opening Batsman"
-                              ? "Opener"
-                              : player.role === "Middle Order Batsman"
-                              ? "Middle"
-                              : player.role === "Tail End Batsman"
-                              ? "Tail"
-                              : player.role === "Opening Bowler"
-                              ? "Opener"
-                              : player.role === "Death Bowler"
-                              ? "Death"
-                              : player.role}
+                                ? "AR"
+                                : player.role === "Opening Batsman"
+                                  ? "Opener"
+                                  : player.role === "Middle Order Batsman"
+                                    ? "Middle"
+                                    : player.role === "Tail End Batsman"
+                                      ? "Tail"
+                                      : player.role === "Opening Bowler"
+                                        ? "Opener"
+                                        : player.role === "Death Bowler"
+                                          ? "Death"
+                                          : player.role}
                           </Badge>
                         </td>
                         <td className="p-3 md:p-4 text-gray-300 text-sm font-medium">

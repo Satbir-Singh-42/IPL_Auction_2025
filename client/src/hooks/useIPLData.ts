@@ -15,7 +15,7 @@ export const useIPLData = () => {
   } = useQuery({
     queryKey: ["teamStats"],
     queryFn: () => googleSheetsService.getTeamStats(),
-    refetchInterval: 5000, // Refetch every 30 seconds for real-time data
+    refetchInterval: 5000, // Refetch every 5 seconds for real-time data
     staleTime: 15000, // Consider data stale after 15 seconds
   });
 

@@ -82,7 +82,7 @@ interface PlayingXIComposition {
 }
 
 const getRoleCategory = (
-  role: string
+  role: string,
 ): keyof Omit<PlayingXIComposition, "foreignPlayers"> => {
   const lowerRole = role.toLowerCase();
   if (
@@ -154,7 +154,7 @@ export const PlayingXI = () => {
   const [teamNotFound, setTeamNotFound] = useState(false);
   const { getSoldPlayersByTeam, isLoading } = useIPLData();
   const { data: soldPlayers, isLoading: loadingPlayers } = getSoldPlayersByTeam(
-    teamConfig?.id || ""
+    teamConfig?.id || "",
   );
 
   // Load Playing XI from localStorage
@@ -201,7 +201,7 @@ export const PlayingXI = () => {
     if (!player) return false;
 
     const xiPlayers = (soldPlayers || []).filter((p) =>
-      playingXI.includes(p.name)
+      playingXI.includes(p.name),
     );
     const roleCategory = getRoleCategory(player.role);
 
@@ -214,14 +214,14 @@ export const PlayingXI = () => {
     // Check role limits
     if (roleCategory === "batsmen") {
       const batsmenCount = xiPlayers.filter(
-        (p) => getRoleCategory(p.role) === "batsmen"
+        (p) => getRoleCategory(p.role) === "batsmen",
       ).length;
       if (batsmenCount >= PLAYING_XI_CONFIG.batsmen.max) return false;
     }
 
     if (roleCategory === "wicketKeepers") {
       const wkCount = xiPlayers.filter(
-        (p) => getRoleCategory(p.role) === "wicketKeepers"
+        (p) => getRoleCategory(p.role) === "wicketKeepers",
       ).length;
       if (wkCount >= PLAYING_XI_CONFIG.wicketKeepers.max) return false;
     }
@@ -262,7 +262,8 @@ export const PlayingXI = () => {
     // Get team stats for complete data
     const teamStats = await googleSheetsService.getTeamStats();
     const currentTeamStats = teamStats.find(
-      (stat) => stat.teamId === teamConfig.id || stat.teamName === teamConfig.name
+      (stat) =>
+        stat.teamId === teamConfig.id || stat.teamName === teamConfig.name,
     );
 
     const totalSpent = currentTeamStats?.totalSpent || 0;
@@ -301,33 +302,34 @@ export const PlayingXI = () => {
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const link = document.createElement("a");
     const url = URL.createObjectURL(blob);
-    
+
     link.setAttribute("href", url);
     link.setAttribute(
       "download",
-      `${teamConfig.name.replace(/\s+/g, "_")}_Playing_XI.csv`
+      `${teamConfig.name.replace(/\s+/g, "_")}_Playing_XI.csv`,
     );
     link.style.visibility = "hidden";
-    
+
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   // Calculate composition
   const getComposition = (): PlayingXIComposition => {
     const xiPlayers = (soldPlayers || []).filter((p) =>
-      playingXI.includes(p.name)
+      playingXI.includes(p.name),
     );
 
     return {
       batsmen: xiPlayers.filter((p) => getRoleCategory(p.role) === "batsmen")
         .length,
       wicketKeepers: xiPlayers.filter(
-        (p) => getRoleCategory(p.role) === "wicketKeepers"
+        (p) => getRoleCategory(p.role) === "wicketKeepers",
       ).length,
       allRounders: xiPlayers.filter(
-        (p) => getRoleCategory(p.role) === "allRounders"
+        (p) => getRoleCategory(p.role) === "allRounders",
       ).length,
       bowlers: xiPlayers.filter((p) => getRoleCategory(p.role) === "bowlers")
         .length,
@@ -350,11 +352,15 @@ export const PlayingXI = () => {
             : `Playing XI complete (${PLAYING_XI_CONFIG.totalPlayers}/${PLAYING_XI_CONFIG.totalPlayers})`,
       },
       {
-        met: comp.batsmen >= PLAYING_XI_CONFIG.batsmen.min && comp.batsmen <= PLAYING_XI_CONFIG.batsmen.max,
+        met:
+          comp.batsmen >= PLAYING_XI_CONFIG.batsmen.min &&
+          comp.batsmen <= PLAYING_XI_CONFIG.batsmen.max,
         text: `Batsmen must be ${PLAYING_XI_CONFIG.batsmen.min}-${PLAYING_XI_CONFIG.batsmen.max} (current: ${comp.batsmen})`,
       },
       {
-        met: comp.wicketKeepers >= PLAYING_XI_CONFIG.wicketKeepers.min && comp.wicketKeepers <= PLAYING_XI_CONFIG.wicketKeepers.max,
+        met:
+          comp.wicketKeepers >= PLAYING_XI_CONFIG.wicketKeepers.min &&
+          comp.wicketKeepers <= PLAYING_XI_CONFIG.wicketKeepers.max,
         text: `Wicket-Keepers must be ${PLAYING_XI_CONFIG.wicketKeepers.min}-${PLAYING_XI_CONFIG.wicketKeepers.max} (current: ${comp.wicketKeepers})`,
       },
       {
@@ -396,18 +402,18 @@ export const PlayingXI = () => {
   // Filter by role
   if (roleFilter !== "all") {
     restPlayers = restPlayers.filter(
-      (p) => getRoleCategory(p.role) === roleFilter
+      (p) => getRoleCategory(p.role) === roleFilter,
     );
   }
 
   // Sort by points
   if (sortBy === "highest") {
     restPlayers = [...restPlayers].sort(
-      (a, b) => (b.points || 0) - (a.points || 0)
+      (a, b) => (b.points || 0) - (a.points || 0),
     );
   } else if (sortBy === "lowest") {
     restPlayers = [...restPlayers].sort(
-      (a, b) => (a.points || 0) - (b.points || 0)
+      (a, b) => (a.points || 0) - (b.points || 0),
     );
   }
 
@@ -415,21 +421,21 @@ export const PlayingXI = () => {
   const validation = validateComposition();
   const teamGradient = googleSheetsService.getTeamGradient(teamConfig.name);
   const teamBorderColor = googleSheetsService.getTeamBorderColor(
-    teamConfig.name
+    teamConfig.name,
   );
 
   // Calculate total points for Playing XI
   const totalPlayingXIPoints = playingXIPlayers.reduce(
     (sum, player) => sum + (player.points || 0),
-    0
+    0,
   );
 
   const PlayerCard = ({ player, inXI }: { player: Player; inXI: boolean }) => {
     const canAdd = !inXI && canAddPlayer(player.name);
     const isDisabled = !inXI && !canAdd;
-    
+
     const getPlayerInitials = (name: string) => {
-      const parts = name.split(' ');
+      const parts = name.split(" ");
       if (parts.length >= 2) {
         return parts[0][0] + parts[parts.length - 1][0];
       }
@@ -446,8 +452,8 @@ export const PlayingXI = () => {
           inXI
             ? `${teamBorderColor} bg-gradient-to-r ${teamGradient} bg-opacity-10 hover:shadow-blue-500/20`
             : isDisabled
-            ? "border-[#2a3441] bg-[#1a2332]"
-            : "border-[#2a3441] bg-[#1a2332] hover:bg-[#1f2937] hover:shadow-blue-500/10"
+              ? "border-[#2a3441] bg-[#1a2332]"
+              : "border-[#2a3441] bg-[#1a2332] hover:bg-[#1f2937] hover:shadow-blue-500/10"
         }`}
         onClick={() => !isDisabled && togglePlayerInXI(player.name)}
         data-testid={`player-${inXI ? "xi" : "bench"}-${player.name
@@ -464,16 +470,17 @@ export const PlayingXI = () => {
               alt={player.name}
               className="w-full h-full object-cover rounded-md border border-white/10"
               onError={(e) => {
-                e.currentTarget.style.display = 'none';
+                e.currentTarget.style.display = "none";
                 if (e.currentTarget.nextSibling) {
-                  (e.currentTarget.nextSibling as HTMLElement).style.display = 'flex';
+                  (e.currentTarget.nextSibling as HTMLElement).style.display =
+                    "flex";
                 }
               }}
             />
           ) : null}
           <div
-            className={`w-full h-full ${player.images ? 'hidden' : 'flex'} items-center justify-center rounded-md bg-gradient-to-br from-blue-500 to-purple-600 text-white font-bold text-[10px] md:text-sm lg:text-xs`}
-            style={player.images ? { display: 'none' } : {}}>
+            className={`w-full h-full ${player.images ? "hidden" : "flex"} items-center justify-center rounded-md bg-gradient-to-br from-blue-500 to-purple-600 text-white font-bold text-[10px] md:text-sm lg:text-xs`}
+            style={player.images ? { display: "none" } : {}}>
             {getPlayerInitials(player.name)}
           </div>
         </div>
@@ -595,8 +602,7 @@ export const PlayingXI = () => {
                     Select your best 11 players for the match
                   </p>
                 </div>
-                <div
-                  className="hidden md:flex items-center gap-2 bg-white/5 px-4 py-2 rounded-lg">
+                <div className="hidden md:flex items-center gap-2 bg-white/5 px-4 py-2 rounded-lg">
                   <Trophy className="w-5 h-5 text-yellow-400" />
                   <span className="text-white font-semibold">
                     {totalPlayingXIPoints} pts
@@ -668,7 +674,9 @@ export const PlayingXI = () => {
                             className="bg-green-600 hover:bg-green-700 border-green-600 text-white text-xs md:text-sm px-2 md:px-3 lg:px-4 py-1.5 md:py-2 h-auto transition-all duration-200 shadow-lg hover:shadow-green-500/25 flex items-center gap-1.5 md:gap-2"
                             data-testid="button-download-csv">
                             <Download className="w-3 h-3 md:w-4 md:h-4" />
-                            <span className="hidden sm:inline">Download Playing XI CSV</span>
+                            <span className="hidden sm:inline">
+                              Download Playing XI CSV
+                            </span>
                             <span className="sm:hidden">Download CSV</span>
                           </Button>
                         </div>
@@ -748,8 +756,7 @@ export const PlayingXI = () => {
                         short: "WK",
                       },
                     ].map(({ key, label, short }) => (
-                      <div
-                        key={key}>
+                      <div key={key}>
                         <Button
                           size="sm"
                           variant={roleFilter === key ? "default" : "outline"}
@@ -787,8 +794,7 @@ export const PlayingXI = () => {
                         short: "Low",
                       },
                     ].map(({ key, label, icon: Icon, short }) => (
-                      <div
-                        key={key}>
+                      <div key={key}>
                         <Button
                           size="sm"
                           variant={sortBy === key ? "default" : "outline"}
@@ -812,7 +818,7 @@ export const PlayingXI = () => {
               </CardHeader>
               <CardContent>
                 <AnimatePresence mode="popLayout">
-                  <div className="max-h-[500px] overflow-y-auto">
+                  <div className="max-h-[50vh] overflow-y-auto">
                     {restPlayers.length === 0 ? (
                       <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
@@ -857,11 +863,13 @@ export const PlayingXI = () => {
                     <Trophy className="w-5 h-5 text-yellow-400" />
                     Playing XI ({playingXI.length}/11)
                     <div className="relative group">
-                      <button className="text-gray-400 hover:text-blue-400 transition-colors">
+                      <button className="text-gray-400 hover:text-blue-400 focus:text-blue-400 transition-colors">
                         <Info className="w-4 h-4" />
                       </button>
-                      <div className="absolute left-0 top-full mt-2 w-64 max-w-[calc(100vw-2rem)] p-3 bg-[#1a2332] border border-[#2a3441] rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                        <p className="font-semibold text-sm mb-2 text-white">Playing XI Requirements:</p>
+                      <div className="absolute left-0 top-full mt-2 w-64 max-w-[calc(100vw-2rem)] p-3 bg-[#1a2332] border border-[#2a3441] rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200 z-50">
+                        <p className="font-semibold text-sm mb-2 text-white">
+                          Playing XI Requirements:
+                        </p>
                         <ul className="text-xs space-y-1 list-disc list-inside text-gray-300">
                           <li>Must have exactly 11 players</li>
                           <li>Batsmen: 2-5 players</li>
@@ -940,7 +948,7 @@ export const PlayingXI = () => {
               </CardHeader>
               <CardContent>
                 <AnimatePresence mode="popLayout">
-                  <div className="max-h-[500px] overflow-y-auto">
+                  <div className="max-h-[50vh] overflow-y-auto">
                     {playingXIPlayers.length === 0 ? (
                       <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
