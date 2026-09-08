@@ -152,8 +152,14 @@ class GoogleSheetsService {
   }
 
   private async fetchPlayersData(): Promise<Player[]> {
-    // First, get the base player data from Players Catalogue
-    const catalogueData = await this.fetchCSVData("0", "Players Catalogue");
+    // First, get the base player data from Players Catalogue by name
+    // (fetched by name so sheet order changes, e.g. adding a dashboard sheet first,
+    //  don't break the fetch)
+    const catalogueData = await this.fetchCSVData(
+      "Players Catalogue",
+      "Players Catalogue",
+      true,
+    );
 
     // Then, get auction results from Auctioneer Sheet
     const auctionData = await this.fetchCSVData(
