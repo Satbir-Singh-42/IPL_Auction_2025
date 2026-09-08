@@ -17,6 +17,7 @@ const navigationTabs = [
   { id: "unsold", label: "UNSOLD PLAYERS", active: false },
   { id: "leaderboard", label: "LEADERBOARD", active: false },
   { id: "guidelines", label: "GUIDELINES", active: false },
+  { id: "auction", label: "AUCTION", active: false, external: true },
 ];
 
 // Create a component to display team logo or abbreviation
@@ -335,7 +336,13 @@ export const PlayerDetailsSection = (): JSX.Element => {
                               ? "bg-[linear-gradient(180deg,rgba(255,107,0,1)_0%,rgba(239,65,35,1)_100%)] text-white border-b-2 border-[#fe6804]"
                               : "bg-white/10 border border-[#90b6ff] text-white hover:text-white hover:bg-white/20 hover:border-[#fe6804]/50"
                           }`}
-                          onClick={() => setActiveTab(tab.id)}>
+                          onClick={() => {
+                            if (tab.external) {
+                              setLocation(`/${tab.id}`);
+                            } else {
+                              setActiveTab(tab.id);
+                            }
+                          }}>
                           {tab.label}
                         </Button>
                       </div>
